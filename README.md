@@ -18,7 +18,7 @@ Works on **macOS**, **Linux** and **Windows**. No runtime dependencies.
 
 🚧 **Early development** — contributions welcome.
 
-See [CLAUDE.md](CLAUDE.md) for architecture, roadmap and conventions.
+See [project_plan.md](project_plan.md) for architecture, roadmap and conventions.
 
 ## Build
 
