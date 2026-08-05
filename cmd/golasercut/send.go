@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"os/signal"
@@ -10,12 +9,13 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/fabienlroy/GoLaserCut/gcode"
 	"github.com/fabienlroy/GoLaserCut/grbl"
 	"github.com/fabienlroy/GoLaserCut/serial"
 )
 
 func sendFile(conn *serial.Connection, filename string) error {
-	lines, err := loadGCode(filename)
+	lines, err := gcode.ReadFile(filename)
 	if err != nil {
 		return err
 	}
@@ -148,45 +148,6 @@ func sendFile(conn *serial.Connection, filename string) error {
 	return nil
 }
 
-func loadGCode(filename string) ([]string, error) {
-	f, err := os.Open(filename)
-	if err != nil {
-		return nil, fmt.Errorf("opening %s: %w", filename, err)
-	}
-	defer f.Close()
-
-	var lines []string
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		line := cleanGCodeLine(scanner.Text())
-		if line != "" {
-			lines = append(lines, line)
-		}
-	}
-	return lines, scanner.Err()
-}
-
-func cleanGCodeLine(line string) string {
-	if i := strings.Index(line, ";"); i >= 0 {
-		line = line[:i]
-	}
-	for {
-		start := strings.Index(line, "(")
-		if start < 0 {
-			break
-		}
-		end := strings.Index(line[start:], ")")
-		if end < 0 {
-			break
-		}
-		line = line[:start] + line[start+end+1:]
-	}
-	line = strings.TrimSpace(line)
-	if line == "" {
-		return ""
-	}
-	return strings.ToUpper(line)
-}
 
 func progressBar(pct, width int) string {
 	filled := pct * width / 100

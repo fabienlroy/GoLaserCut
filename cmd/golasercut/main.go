@@ -8,20 +8,28 @@ import (
 
 	"github.com/fabienlroy/GoLaserCut/grbl"
 	"github.com/fabienlroy/GoLaserCut/serial"
+	"github.com/fabienlroy/GoLaserCut/ui"
 )
 
 func main() {
 	port := flag.String("port", "", "serial port (auto-detect if empty)")
 	list := flag.Bool("list", false, "list available serial ports")
+	gui := flag.Bool("gui", false, "launch graphical interface")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: golasercut [flags] [file.gcode]\n\n")
 		fmt.Fprintf(os.Stderr, "GRBL laser cutter controller.\n\n")
-		fmt.Fprintf(os.Stderr, "Without a file, starts an interactive console.\n")
-		fmt.Fprintf(os.Stderr, "With a .gcode file, sends it with progress tracking.\n\n")
+		fmt.Fprintf(os.Stderr, "  -gui             launch graphical interface\n")
+		fmt.Fprintf(os.Stderr, "  no file           interactive CLI console\n")
+		fmt.Fprintf(os.Stderr, "  file.gcode        send file with progress\n\n")
 		fmt.Fprintf(os.Stderr, "Flags:\n")
 		flag.PrintDefaults()
 	}
 	flag.Parse()
+
+	if *gui {
+		ui.Run()
+		return
+	}
 
 	if *list {
 		listPorts()
