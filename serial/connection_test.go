@@ -35,7 +35,7 @@ func (m *mockPort) Sent() string {
 
 func TestReadLines(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 
 	go func() {
 		pw.Write([]byte("Grbl 1.1h ['$' for help]\r\n"))
@@ -55,7 +55,7 @@ func TestReadLines(t *testing.T) {
 
 func TestReadLinesCRLF(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 
 	go func() {
 		pw.Write([]byte("ok\r\n"))
@@ -75,7 +75,7 @@ func TestReadLinesCRLF(t *testing.T) {
 
 func TestWriteLine(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	if err := conn.WriteLine("G0 X10"); err != nil {
@@ -88,7 +88,7 @@ func TestWriteLine(t *testing.T) {
 
 func TestWriteRealtime(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	if err := conn.WriteRealtime(CmdStatusReport); err != nil {
@@ -101,7 +101,7 @@ func TestWriteRealtime(t *testing.T) {
 
 func TestWriteAfterClose(t *testing.T) {
 	mock, _ := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	conn.Close()
 
 	if err := conn.WriteLine("test"); err == nil {
@@ -114,7 +114,7 @@ func TestWriteAfterClose(t *testing.T) {
 
 func TestCloseIdempotent(t *testing.T) {
 	mock, _ := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	conn.Close()
 	if err := conn.Close(); err != nil {
 		t.Errorf("second Close() returned error: %v", err)
@@ -123,7 +123,7 @@ func TestCloseIdempotent(t *testing.T) {
 
 func TestLinesClosedOnDisconnect(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 
 	pw.Write([]byte("ok\r\n"))
 	pw.Close()
@@ -139,7 +139,7 @@ func TestLinesClosedOnDisconnect(t *testing.T) {
 
 func TestPortName(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "/dev/ttyUSB0")
+	conn := NewConnection(mock, "/dev/ttyUSB0")
 	defer func() { pw.Close(); conn.Close() }()
 
 	if got := conn.PortName(); got != "/dev/ttyUSB0" {

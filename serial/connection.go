@@ -11,14 +11,15 @@ import (
 
 const DefaultBaudRate = 115200
 
-type portIO interface {
+// PortIO is the interface for a serial port or simulator.
+type PortIO interface {
 	Read([]byte) (int, error)
 	Write([]byte) (int, error)
 	Close() error
 }
 
 type Connection struct {
-	port     portIO
+	port     PortIO
 	portName string
 	reader   *bufio.Reader
 	mu       sync.Mutex
@@ -39,10 +40,10 @@ func Open(portName string) (*Connection, error) {
 	if err != nil {
 		return nil, fmt.Errorf("opening %s: %w", portName, err)
 	}
-	return newConnection(port, portName), nil
+	return NewConnection(port, portName), nil
 }
 
-func newConnection(port portIO, name string) *Connection {
+func NewConnection(port PortIO, name string) *Connection {
 	c := &Connection{
 		port:     port,
 		portName: name,

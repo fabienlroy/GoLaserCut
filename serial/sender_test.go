@@ -9,7 +9,7 @@ import (
 
 func TestSenderSimple(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	s := NewSender(conn)
@@ -34,7 +34,7 @@ func TestSenderSimple(t *testing.T) {
 
 func TestSenderBufferFull(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	s := NewSender(conn)
@@ -69,7 +69,7 @@ func TestSenderBufferFull(t *testing.T) {
 
 func TestSenderLineTooLong(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	s := NewSender(conn)
@@ -81,7 +81,7 @@ func TestSenderLineTooLong(t *testing.T) {
 
 func TestSenderStop(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	s := NewSender(conn)
@@ -108,7 +108,7 @@ func TestSenderStop(t *testing.T) {
 
 func TestSenderPauseResume(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	s := NewSender(conn)
@@ -139,7 +139,7 @@ func TestSenderPauseResume(t *testing.T) {
 
 func TestSenderReset(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	s := NewSender(conn)
@@ -158,7 +158,7 @@ func TestSenderReset(t *testing.T) {
 
 func TestSenderMultipleLines(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	s := NewSender(conn)
@@ -185,7 +185,7 @@ func TestSenderMultipleLines(t *testing.T) {
 
 func TestSenderAckEmpty(t *testing.T) {
 	mock, pw := newMockPort()
-	conn := newConnection(mock, "mock")
+	conn := NewConnection(mock, "mock")
 	defer func() { pw.Close(); conn.Close() }()
 
 	s := NewSender(conn)
