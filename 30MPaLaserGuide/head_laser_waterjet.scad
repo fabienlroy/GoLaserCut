@@ -351,18 +351,15 @@ module piece_B() {
             cylinder(d=D_CHAMBRE, h=H_CHAMBRE);
 
         // --- Entrée eau HP (latérale, taraudage 10-32 UNF pour raccord HPLC) ---
-        // Avant-trou Ø3.5 traversant jusqu'à la chambre + taraudage 6mm de profondeur
+        // Avant-trou Ø3.5 borgne (extérieur → chambre) + taraudage 6mm
         translate([0, 0, H_BUSE + H_CHAMBRE / 2])
             rotate([0, 90, 0]) {
-                // Avant-trou traversant jusqu'à la chambre
-                cylinder(d=D_ENTREE_HP, h=D_EXT, center=true);
-                // Alésage taraudage (légèrement plus large côté extérieur)
-                translate([0, 0, D_EXT/2 - H_TARAUD_HP])
+                // Avant-trou borgne jusqu'à la chambre
+                translate([0, 0, D_CHAMBRE/2 - 0.1])
+                    cylinder(d=D_ENTREE_HP, h=R_EXT - D_CHAMBRE/2 + 1);
+                // Alésage taraudage côté extérieur
+                translate([0, 0, R_EXT - H_TARAUD_HP])
                     cylinder(d=D_ENTREE_HP + 0.6, h=H_TARAUD_HP + 0.1);
-                // Même chose côté opposé (optionnel : 2ème raccord ou bouchon)
-                rotate([0, 0, 180])
-                    translate([0, 0, D_EXT/2 - H_TARAUD_HP])
-                        cylinder(d=D_ENTREE_HP + 0.6, h=H_TARAUD_HP + 0.1);
             }
 
         // --- Logement buse + filetage interne BAS (reçoit pièce C) ---
