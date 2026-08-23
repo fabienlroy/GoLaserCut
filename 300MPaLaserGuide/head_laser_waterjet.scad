@@ -35,7 +35,7 @@ H_FILET_C   = 5;     // longueur filetée
 D_SORTIE    = 2;     // Ø sortie jet (bouchon)
 
 // --- Refroidissement BP (anneau sur face de joint pièce A) ---
-RAIN_D      = 8.0;   // profondeur chambre annulaire
+RAIN_D      = 4.0;   // profondeur chambre annulaire (< H_FILET pour raccord solide)
 RAIN_R_INT  = D_FENETRE/2 + 1.5;   // rayon intérieur anneau (6.5mm)
 RAIN_R_EXT  = D_EXT/2 - 1.5;       // rayon extérieur anneau (13.5mm, paroi 1.5mm)
 RAIN_W      = RAIN_R_EXT - RAIN_R_INT;  // largeur anneau (7mm)
@@ -133,6 +133,7 @@ module chanfrein_bas(d) {
             cylinder(d=d + 1, h=CHAMFER + 0.5);
             translate([0, 0, 0.5])
                 cylinder(d1=d - 2*CHAMFER, d2=d, h=CHAMFER + 0.01);
+            cylinder(d=d - 2*CHAMFER, h=CHAMFER + 0.51);
         }
 }
 
@@ -143,6 +144,7 @@ module chanfrein_bas_z(d, z) {
             cylinder(d=d + 1, h=CHAMFER + 0.5);
             translate([0, 0, 0.5])
                 cylinder(d1=d - 2*CHAMFER, d2=d, h=CHAMFER + 0.01);
+            cylinder(d=d - 2*CHAMFER, h=CHAMFER + 0.51);
         }
 }
 
