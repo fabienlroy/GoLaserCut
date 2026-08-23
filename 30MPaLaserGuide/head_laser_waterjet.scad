@@ -43,7 +43,7 @@ RAIN_R      = (RAIN_R_INT + RAIN_R_EXT) / 2;  // rayon centre (10mm)
 D_CANAL_BP  = 3;     // Ø canal radial (anneau → raccord)
 D_RACCORD   = 6.2;   // Ø alésage pour tuyau plastique OD 6mm (press-fit)
 L_RACCORD   = 8;     // profondeur d'insertion tuyau
-Z_RADIAL    = H_FILET + RAIN_D / 2;  // hauteur abs. trous radiaux = milieu chambre dans le corps
+Z_RADIAL    = H_FILET + RAIN_D / 2 + 2;  // hauteur abs. trous radiaux (+2mm au-dessus du filetage)
 
 // --- Entrée eau HP (raccord HPLC 10-32 UNF) ---
 D_ENTREE_HP = 3.5;   // Ø avant-trou taraudage 10-32 UNF (taraudé à la main)
