@@ -1,93 +1,134 @@
 ==============================================================
-NOMENCLATURE — Tête laser guidée par jet d'eau 30 MPa
-Composants standard (hors pièces usinées A, B, C)
+BILL OF MATERIALS — Water-jet guided laser head 30 MPa
+Standard components (excluding machined parts A, B, C)
 ==============================================================
 
-Réf  Désignation                          Qté  Spécifications
+Ref  Description                          Qty  Specifications
 ---- ------------------------------------ ---- ------------------------------------------
 
---- JOINTS TORIQUES (ISO 3601, matière FKM/Viton pour résistance eau) ---
+--- O-RINGS (ISO 3601, FKM/Viton for water resistance) ---
 
-J1   Joint torique fenêtre saphir          2   ID 8 × section 1.5 mm (OR 8×1.5)
-                                               Gorge : L=2.0 P=1.1 mm
-                                               Réf ISO 3601 : ~OR-008-150
-                                               Fournisseurs : RS Components, Bricozor, Oreca
-                                               Prix : 0.50 – 2.00 €/pièce
+J1   Sapphire window O-ring                2   ID 8 x cross-section 1.5 mm (OR 8x1.5)
+                                               Groove: W=2.0 D=1.1 mm
+                                               ISO 3601 ref: ~OR-008-150
+                                               Suppliers: RS Components, McMaster-Carr, Amazon
+                                               Price: 0.50 - 2.00 EUR/pc
 
-J2   Joint torique face BP (A↔B)           1   ID 18 × section 1.5 mm (OR 18×1.5)
-                                               Gorge : L=2.0 P=1.1 mm
-                                               Réf ISO 3601 : ~OR-018-150
-                                               Fournisseurs : RS Components, Oreca, Amazon
-                                               Prix : 0.80 – 3.00 €/pièce
+J2   LP face seal O-ring (A-B junction)    1   ID 18 x cross-section 1.5 mm (OR 18x1.5)
+                                               Groove: W=2.0 D=1.1 mm
+                                               ISO 3601 ref: ~OR-018-150
+                                               Suppliers: RS Components, McMaster-Carr, Amazon
+                                               Price: 0.80 - 3.00 EUR/pc
 
-J3   Joint torique buse                    1   ID 3 × section 1.0 mm (OR 3×1.0)
-                                               Gorge : L=1.4 P=0.75 mm
-                                               Réf ISO 3601 : ~OR-003-100
-                                               Fournisseurs : RS Components, Oreca
-                                               Prix : 0.30 – 1.50 €/pièce
+J3   Nozzle O-ring                         1   ID 3 x cross-section 1.0 mm (OR 3x1.0)
+                                               Groove: W=1.4 D=0.75 mm
+                                               ISO 3601 ref: ~OR-003-100
+                                               Suppliers: RS Components, McMaster-Carr
+                                               Price: 0.30 - 1.50 EUR/pc
 
---- RACCORDS HYDRAULIQUES ---
+--- HYDRAULIC FITTINGS ---
 
-R1   Raccord coudé 90° push-in             3   Filetage mâle R 1/8" BSP
-     (2× BP sur pièce A, 1× HP sur B)          Tube Ø6 mm OD
-                                               Standard IQS ou équivalent
-                                               Réf type : IQS 90° L-Steckverschraubung R1/8-6mm
-                                               Fournisseurs : Amazon, Festo, SMC, Legris/Parker
-                                               Prix : 3.00 – 8.00 €/pièce
+R1   90-degree push-in elbow fitting       3   Male thread R 1/8" BSP
+     (2x LP on part A, 1x HP on part B)        Tube OD 6 mm
+                                               IQS standard or equivalent
+                                               Ref: IQS 90-degree L-push-in R1/8-6mm
+                                               Suppliers: Amazon, Festo, SMC, Legris/Parker
+                                               Price: 3.00 - 8.00 EUR/pc
 
-T1   Tube polyuréthane ou nylon            ~2m  Ø extérieur 6 mm, Ø intérieur 4 mm
-                                               Pression service ≥ 10 bar (BP)
-                                               Réf type : PUN-6X1 (Festo) ou équivalent
-                                               Fournisseurs : Festo, SMC, RS Components, Amazon
-                                               Prix : 1.00 – 4.00 €/m
+T1   Polyurethane or nylon tubing         ~2m  OD 6 mm, ID 4 mm
+                                               Working pressure >= 10 bar (LP circuit)
+                                               Ref: PUN-6X1 (Festo) or equivalent
+                                               Suppliers: Festo, SMC, RS Components, Amazon
+                                               Price: 1.00 - 4.00 EUR/m
 
---- OPTIQUE ---
+--- OPTICS ---
 
-O1   Fenêtre saphir                        1   Ø10 mm × ép. 1.5 mm
-                                               Traitement AR pour longueur d'onde laser
-                                               Poli optique 2 faces, parallélisme < 1'
-                                               Fournisseurs : Edmund Optics, Thorlabs, Melles Griot
-                                               Prix : 30 – 120 €/pièce
+O1   Sapphire window                       1   Dia. 10 mm x thickness 1.5 mm
+                                               AR coated for laser wavelength
+                                               Optical polish both faces, parallelism < 1'
+                                               Suppliers: Edmund Optics, Thorlabs, Melles Griot
+                                               Price: 30 - 120 EUR/pc
 
-O2   Buse saphir micro-percée             1   Ø extérieur 4 mm, hauteur ~3 mm
-                                               Micro-orifice Ø ~100 µm (selon application)
-                                               Fournisseurs : Synova, Swiss Jewel, Bird Precision
-                                               Prix : 150 – 800 €/pièce (sur mesure)
+O2   Micro-drilled sapphire nozzle         1   OD 4 mm, height ~3 mm
+                                               Micro-orifice dia. ~100 um (application dependent)
+                                               Suppliers: Synova, Swiss Jewel, Bird Precision
+                                               Price: 150 - 800 EUR/pc (custom)
 
---- VISSERIE ---
+--- FASTENERS ---
 
-V1   Vis sans tête M2.5 (6 pans creux)    6   M2.5 × 20 mm, bout plat ou téton
-                                               Acier inox A2 ou laiton (éviter magnétisme)
-                                               2 rangées de 3 à 120°, décalées de 60°
-                                               Réf DIN 913 / ISO 4026
-                                               Fournisseurs : Bossard, Vis Express, RS Components
-                                               Prix : 0.10 – 0.50 €/pièce
+V1   M2.5 socket set screw (grub screw)   6   M2.5 x 20 mm, flat point or dog point
+                                               Stainless steel A2 or brass (avoid magnetic)
+                                               2 rows of 3 at 120 deg, offset by 60 deg
+                                               Ref: DIN 913 / ISO 4026
+                                               Suppliers: Bossard, Bolt Depot, RS Components
+                                               Price: 0.10 - 0.50 EUR/pc
 
---- OUTILLAGE (non monté, pour assemblage/désassemblage) ---
+--- LASER SOURCE ---
 
-U1   Clé à ergots réglable                1   Ø ergots 3.1 mm, entraxe 14 mm (pièce C)
-                                               Entraxe variable pour pièce A (R_EXT-3 = 17mm)
-                                               Fournisseurs : Facom, Stahlwille, Amazon
-                                               Prix : 15 – 40 €
+L1   Fiber laser module 1 kW kit           1   1 kW CW fiber laser source
+                                               Complete kit with driver board
+                                               Supplier: AliExpress
+                                               Price: 1141.99 EUR
 
-U2   Clé Allen M2.5                        1   Pour vis de collimation
-                                               Prix : 1 – 3 €
+L2   60V DC power supply 1.5 kW            1   60V 25A switching power supply
+                                               For laser module driver
+                                               Supplier: AliExpress, Amazon
+                                               Price: 84.99 EUR
 
-U3   Taraud Rc 1/8" BSP                   1   Pour taraudage des méplats (R 1/8" conique)
-                                               Avec avant-trou Ø8.8 mm
-                                               Fournisseurs : Dormer, OSG, Amazon
-                                               Prix : 8 – 25 €
+L3   Laser water chiller                    1   Recirculating water chiller
+                                               For laser module cooling
+                                               Supplier: Vevor
+                                               Price: 349.00 EUR
+
+--- HIGH-PRESSURE WATER SYSTEM ---
+
+H1   HPLC pump 40 MPa (used)               1   High-pressure liquid chromatography pump
+                                               Flow rate suitable for micro-nozzle
+                                               Supplier: eBay, Labexchange, used lab equipment
+                                               Price: ~300.00 EUR (used)
+
+H2   HPLC fitting connectors               6   1/16" OD tube compression fittings
+                                               Stainless steel, rated 40 MPa
+                                               Male/female nuts + ferrules
+                                               Suppliers: Swagelok, IDEX/Upchurch, Waters
+                                               Price: 5 - 20 EUR/pc
+
+H3   HPLC high-pressure tubing            ~2m  1/16" OD x 0.25 mm ID stainless steel
+                                               PEEK or SS 316, rated 40 MPa
+                                               Suppliers: IDEX/Upchurch, Swagelok, Waters
+                                               Price: 10 - 30 EUR/m
+
+--- TOOLING (not installed, for assembly/disassembly) ---
+
+U1   Adjustable pin spanner                1   Pin dia. 3.1 mm, span 14 mm (part C)
+                                               Variable span for part A (R_EXT-3 = 17 mm)
+                                               Suppliers: Facom, Stahlwille, Amazon
+                                               Price: 15 - 40 EUR
+
+U2   M2.5 hex key (Allen wrench)           1   For collimation set screws
+                                               Price: 1 - 3 EUR
+
+U3   Rc 1/8" BSP taper tap                 1   For tapping the flat surfaces (R 1/8" taper)
+                                               Pilot drill dia. 8.8 mm
+                                               Suppliers: Dormer, OSG, Amazon
+                                               Price: 8 - 25 EUR
 
 ==============================================================
-ESTIMATION COÛT TOTAL COMPOSANTS STANDARD
+ESTIMATED TOTAL COST — STANDARD COMPONENTS
 ==============================================================
 
-Joints toriques (4 pcs)          :     2 –  9 €
-Raccords coudés (3 pcs)          :     9 – 24 €
-Tube 6mm (2m)                    :     2 –  8 €
-Fenêtre saphir (1 pc)            :    30 – 120 €
-Buse saphir (1 pc)               :   150 – 800 €
-Visserie M2.5 (6 pcs)            :     1 –  3 €
+O-rings (4 pcs)                  :      2 -    9 EUR
+Push-in elbow fittings (3 pcs)   :      9 -   24 EUR
+6 mm tubing (2 m)                :      2 -    8 EUR
+Sapphire window (1 pc)           :     30 -  120 EUR
+Sapphire nozzle (1 pc)           :    150 -  800 EUR
+M2.5 set screws (6 pcs)          :      1 -    3 EUR
+Laser module 1 kW kit            :           1142 EUR
+60V power supply 1.5 kW          :             85 EUR
+Laser water chiller              :            349 EUR
+HPLC pump 40 MPa (used)          :           ~300 EUR
+HPLC connectors (6 pcs)          :     30 -  120 EUR
+HPLC tubing (2 m)                :     20 -   60 EUR
                                     ----------------
-TOTAL composants                 :   194 – 964 €
-(hors outillage, hors pièces usinées A/B/C)
+TOTAL                            :  2120 - 3020 EUR
+(excluding tooling, excluding machined parts A/B/C)
