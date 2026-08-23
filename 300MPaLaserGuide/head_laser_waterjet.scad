@@ -22,7 +22,7 @@ D_FAISCEAU  = 6;     // Ø passage libre faisceau
 
 // --- Chambre HP ---
 D_CHAMBRE   = 8;     // Ø intérieur chambre HP
-H_CHAMBRE   = 10;    // hauteur chambre HP
+H_CHAMBRE   = 7;     // hauteur chambre HP
 
 // --- Buse ---
 D_BUSE_EXT  = 4;     // Ø logement buse saphir (extérieur buse)
