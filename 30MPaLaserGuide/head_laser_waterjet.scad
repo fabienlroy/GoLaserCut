@@ -7,7 +7,7 @@
 
 // --- Corps ---
 D_EXT       = 30;    // Ø extérieur corps
-H_A         = 28;    // hauteur pièce A
+H_A         = 32;    // hauteur pièce A
 H_B         = 25;    // hauteur pièce B
 
 // --- Filetage jonction (M × 0.7 de pas) ---
@@ -43,7 +43,7 @@ RAIN_R      = (RAIN_R_INT + RAIN_R_EXT) / 2;  // rayon centre (10mm)
 D_CANAL_BP  = 3;     // Ø canal radial (anneau → raccord)
 D_RACCORD   = 6.2;   // Ø alésage pour tuyau plastique OD 6mm (press-fit)
 L_RACCORD   = 8;     // profondeur d'insertion tuyau
-Z_RADIAL    = RAIN_D / 2;  // hauteur des trous radiaux = milieu chambre (4mm)
+Z_RADIAL    = H_FILET + RAIN_D / 2;  // hauteur abs. trous radiaux = milieu chambre dans le corps
 
 // --- Entrée eau HP (raccord HPLC 10-32 UNF) ---
 D_ENTREE_HP = 3.5;   // Ø avant-trou taraudage 10-32 UNF (taraudé à la main)
@@ -243,12 +243,12 @@ module piece_A() {
         // --- Gorge joint fenêtre (face basse, autour du faisceau) ---
         gorge_torique_face(OR_W_ID, OR_W_CS, GR_W_W, GR_W_D, -GR_W_W/2);
 
-        // --- Chambre annulaire refroidissement BP (face basse de A) ---
-        // Profonde de 8mm, paroi ext 1.5mm, fermée par face sup de B
-        translate([0, 0, -0.1])
+        // --- Chambre annulaire refroidissement BP (face d'appui, au-dessus du filetage) ---
+        // Fermée par face sup de B quand A est vissée
+        translate([0, 0, H_FILET - 0.1])
             rotate_extrude($fn=64)
                 translate([RAIN_R_INT, 0])
-                    square([RAIN_W, RAIN_D + 0.2]);
+                    square([RAIN_W, RAIN_D + 0.1]);
 
         // --- Raccord entrée eau BP (0°, radial au milieu de la chambre) ---
         // Alésage Ø6.2 pour tuyau plastique OD 6mm (press-fit)
@@ -276,7 +276,7 @@ module piece_A() {
                     }
 
         // --- Gorge joint BP face (étanche le circuit entre A et B) ---
-        gorge_torique_face(OR_BP_ID, OR_BP_CS, GR_BP_W, GR_BP_D, -GR_BP_W/2);
+        gorge_torique_face(OR_BP_ID, OR_BP_CS, GR_BP_W, GR_BP_D, H_FILET - GR_BP_W/2);
 
         // --- Vis de collimation ---
         // Rangée 1 : 3 trous M2.5 à 120°, à 3mm du haut
@@ -468,8 +468,8 @@ module assemblage() {
     joint_torique(OR_W_ID, OR_W_CS, Z_FEN - 1);
     joint_torique(OR_W_ID, OR_W_CS, Z_FEN + EP_FENETRE + 0.5);
 
-    // Joint BP face
-    joint_torique(OR_BP_ID, OR_BP_CS, H_B - H_FILET + 0.5);
+    // Joint BP face (sur la face d'appui A/B)
+    joint_torique(OR_BP_ID, OR_BP_CS, H_B - 0.5);
 
     // Pièce A (vissée dans B par le haut)
     translate([0, 0, H_B - H_FILET])
