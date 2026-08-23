@@ -1,0 +1,93 @@
+==============================================================
+NOMENCLATURE — Tête laser guidée par jet d'eau 30 MPa
+Composants standard (hors pièces usinées A, B, C)
+==============================================================
+
+Réf  Désignation                          Qté  Spécifications
+---- ------------------------------------ ---- ------------------------------------------
+
+--- JOINTS TORIQUES (ISO 3601, matière FKM/Viton pour résistance eau) ---
+
+J1   Joint torique fenêtre saphir          2   ID 8 × section 1.5 mm (OR 8×1.5)
+                                               Gorge : L=2.0 P=1.1 mm
+                                               Réf ISO 3601 : ~OR-008-150
+                                               Fournisseurs : RS Components, Bricozor, Oreca
+                                               Prix : 0.50 – 2.00 €/pièce
+
+J2   Joint torique face BP (A↔B)           1   ID 18 × section 1.5 mm (OR 18×1.5)
+                                               Gorge : L=2.0 P=1.1 mm
+                                               Réf ISO 3601 : ~OR-018-150
+                                               Fournisseurs : RS Components, Oreca, Amazon
+                                               Prix : 0.80 – 3.00 €/pièce
+
+J3   Joint torique buse                    1   ID 3 × section 1.0 mm (OR 3×1.0)
+                                               Gorge : L=1.4 P=0.75 mm
+                                               Réf ISO 3601 : ~OR-003-100
+                                               Fournisseurs : RS Components, Oreca
+                                               Prix : 0.30 – 1.50 €/pièce
+
+--- RACCORDS HYDRAULIQUES ---
+
+R1   Raccord coudé 90° push-in             3   Filetage mâle R 1/8" BSP
+     (2× BP sur pièce A, 1× HP sur B)          Tube Ø6 mm OD
+                                               Standard IQS ou équivalent
+                                               Réf type : IQS 90° L-Steckverschraubung R1/8-6mm
+                                               Fournisseurs : Amazon, Festo, SMC, Legris/Parker
+                                               Prix : 3.00 – 8.00 €/pièce
+
+T1   Tube polyuréthane ou nylon            ~2m  Ø extérieur 6 mm, Ø intérieur 4 mm
+                                               Pression service ≥ 10 bar (BP)
+                                               Réf type : PUN-6X1 (Festo) ou équivalent
+                                               Fournisseurs : Festo, SMC, RS Components, Amazon
+                                               Prix : 1.00 – 4.00 €/m
+
+--- OPTIQUE ---
+
+O1   Fenêtre saphir                        1   Ø10 mm × ép. 1.5 mm
+                                               Traitement AR pour longueur d'onde laser
+                                               Poli optique 2 faces, parallélisme < 1'
+                                               Fournisseurs : Edmund Optics, Thorlabs, Melles Griot
+                                               Prix : 30 – 120 €/pièce
+
+O2   Buse saphir micro-percée             1   Ø extérieur 4 mm, hauteur ~3 mm
+                                               Micro-orifice Ø ~100 µm (selon application)
+                                               Fournisseurs : Synova, Swiss Jewel, Bird Precision
+                                               Prix : 150 – 800 €/pièce (sur mesure)
+
+--- VISSERIE ---
+
+V1   Vis sans tête M2.5 (6 pans creux)    6   M2.5 × 20 mm, bout plat ou téton
+                                               Acier inox A2 ou laiton (éviter magnétisme)
+                                               2 rangées de 3 à 120°, décalées de 60°
+                                               Réf DIN 913 / ISO 4026
+                                               Fournisseurs : Bossard, Vis Express, RS Components
+                                               Prix : 0.10 – 0.50 €/pièce
+
+--- OUTILLAGE (non monté, pour assemblage/désassemblage) ---
+
+U1   Clé à ergots réglable                1   Ø ergots 3.1 mm, entraxe 14 mm (pièce C)
+                                               Entraxe variable pour pièce A (R_EXT-3 = 17mm)
+                                               Fournisseurs : Facom, Stahlwille, Amazon
+                                               Prix : 15 – 40 €
+
+U2   Clé Allen M2.5                        1   Pour vis de collimation
+                                               Prix : 1 – 3 €
+
+U3   Taraud Rc 1/8" BSP                   1   Pour taraudage des méplats (R 1/8" conique)
+                                               Avec avant-trou Ø8.8 mm
+                                               Fournisseurs : Dormer, OSG, Amazon
+                                               Prix : 8 – 25 €
+
+==============================================================
+ESTIMATION COÛT TOTAL COMPOSANTS STANDARD
+==============================================================
+
+Joints toriques (4 pcs)          :     2 –  9 €
+Raccords coudés (3 pcs)          :     9 – 24 €
+Tube 6mm (2m)                    :     2 –  8 €
+Fenêtre saphir (1 pc)            :    30 – 120 €
+Buse saphir (1 pc)               :   150 – 800 €
+Visserie M2.5 (6 pcs)            :     1 –  3 €
+                                    ----------------
+TOTAL composants                 :   194 – 964 €
+(hors outillage, hors pièces usinées A/B/C)
