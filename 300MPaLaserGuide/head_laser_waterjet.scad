@@ -113,6 +113,53 @@ module joint_torique(id, cs, z) {
 
 // (module spirale supprimé — remplacé par anneau simple)
 
+// --- Filetage métrique (profil ISO 60°) ---
+
+module filet_male(d_nom, pitch, h) {
+    H = pitch * sqrt(3) / 2;
+    dp = 5 * H / 8;
+    d_min = d_nom - 2 * dp;
+    r_mid = (d_nom + d_min) / 4;
+    n = h / pitch;
+    sl = round(n * 24);
+
+    union() {
+        cylinder(d=d_min, h=h);
+        intersection() {
+            cylinder(d=d_nom, h=h);
+            translate([0, 0, -pitch])
+                linear_extrude(height=h + 2*pitch, twist=-(n+2)*360,
+                              slices=sl + 48, convexity=10)
+                    translate([r_mid, 0])
+                        circle(r=dp, $fn=3);
+        }
+    }
+}
+
+module filet_femelle(d_nom, pitch, h) {
+    H = pitch * sqrt(3) / 2;
+    dp = 5 * H / 8;
+    d_min = d_nom - 2 * dp;
+    r_mid = (d_nom + d_min) / 4;
+    n = h / pitch;
+    sl = round(n * 24);
+
+    difference() {
+        cylinder(d=d_nom + 0.2, h=h);
+        intersection() {
+            difference() {
+                cylinder(d=d_nom + 0.4, h=h + 0.01);
+                cylinder(d=d_min, h=h + 0.02);
+            }
+            translate([0, 0, -pitch])
+                linear_extrude(height=h + 2*pitch, twist=-(n+2)*360,
+                              slices=sl + 48, convexity=10)
+                    translate([r_mid, 0])
+                        circle(r=dp, $fn=3);
+        }
+    }
+}
+
 // --- Modules chanfrein 1mm ---
 CHAMFER = 1;  // taille chanfrein (mm)
 
@@ -176,10 +223,8 @@ module piece_A() {
             translate([0, 0, H_FILET])
                 cylinder(d=D_EXT, h=H_A - H_FILET);
 
-            // Zone filetée (diamètre réduit)
-            cylinder(d=D_FILET - 0.2, h=H_FILET);
-            // Note: le filetage M20×0.7 est coupé par la fraise CNC
-            // Ce cylindre représente le Ø fond de filet
+            // Zone filetée M20 × 0.7
+            filet_male(D_FILET, PAS_FILET, H_FILET);
         }
 
         // --- Passage faisceau (traversant) ---
@@ -256,7 +301,7 @@ module piece_A() {
         chanfrein_bas_z(D_EXT, H_FILET);
 
         // --- Chanfrein entrée filetage mâle M20 (bout du filetage) ---
-        chanfrein_filet_male(D_FILET - 0.2, 0);  // chanfrein au raccord corps/filetage
+        chanfrein_filet_male(D_FILET, 0);
     }
 }
 
@@ -269,9 +314,9 @@ module piece_B() {
         // --- Corps plein ---
         cylinder(d=D_EXT, h=H_B);
 
-        // --- Filetage interne HAUT (reçoit pièce A) ---
+        // --- Filetage interne HAUT M20 × 0.7 (reçoit pièce A) ---
         translate([0, 0, H_B - H_FILET - 0.01])
-            cylinder(d=D_FILET + 0.2, h=H_FILET + 0.02);
+            filet_femelle(D_FILET, PAS_FILET, H_FILET + 0.02);
 
         // --- Logement fenêtre (épaulement, accessible par le haut) ---
         Z_FEN = H_B - H_FILET - EP_FENETRE;
@@ -312,7 +357,7 @@ module piece_B() {
 
         // Filetage interne M10 × 0.7 (reçoit bouchon C)
         translate([0, 0, -0.01])
-            cylinder(d=D_FILET_C + 0.2, h=H_FILET_C + 0.01);
+            filet_femelle(D_FILET_C, PAS_FILET, H_FILET_C + 0.01);
 
         // --- Gorge joint buse (dans l'alésage, au-dessus du filetage) ---
         gorge_torique_face(OR_N_ID, OR_N_CS, GR_N_W, GR_N_D,
@@ -345,9 +390,9 @@ module piece_C() {
             // Corps du bouchon (collerette extérieure)
             cylinder(d=D_EXT, h=H_C - H_FILET_C);
 
-            // Zone filetée (M10 × 0.7, visse dans B par le bas)
+            // Zone filetée M10 × 0.7 (visse dans B par le bas)
             translate([0, 0, H_C - H_FILET_C])
-                cylinder(d=D_FILET_C - 0.2, h=H_FILET_C);
+                filet_male(D_FILET_C, PAS_FILET, H_FILET_C);
         }
 
         // --- Passage jet d'eau (traversant, axial) ---
@@ -365,7 +410,7 @@ module piece_C() {
         chanfrein_bas(D_EXT);
 
         // --- Chanfrein entrée filetage mâle M10 (bout du filetage) ---
-        chanfrein_filet_male(D_FILET_C - 0.2, H_C);
+        chanfrein_filet_male(D_FILET_C, H_C);
     }
 }
 
