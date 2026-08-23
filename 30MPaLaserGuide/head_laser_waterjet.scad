@@ -6,7 +6,7 @@
 // ============ PARAMÈTRES MODIFIABLES =======================
 
 // --- Corps ---
-D_EXT       = 30;    // Ø extérieur corps
+D_EXT       = 40;    // Ø extérieur corps (augmenté pour raccords filetés)
 H_A         = 32;    // hauteur pièce A
 H_B         = 25;    // hauteur pièce B
 
@@ -35,19 +35,19 @@ H_FILET_C   = 5;     // longueur filetée
 D_SORTIE    = 2;     // Ø sortie jet (bouchon)
 
 // --- Refroidissement BP (anneau sur face de joint pièce A) ---
-RAIN_D      = 4.0;   // profondeur chambre annulaire (< H_FILET pour raccord solide)
+RAIN_D      = 6.0;   // hauteur chambre annulaire (augmentée)
 RAIN_R_INT  = D_FENETRE/2 + 1.5;   // rayon intérieur anneau (6.5mm)
-RAIN_R_EXT  = D_EXT/2 - 1.5;       // rayon extérieur anneau (13.5mm, paroi 1.5mm)
-RAIN_W      = RAIN_R_EXT - RAIN_R_INT;  // largeur anneau (7mm)
-RAIN_R      = (RAIN_R_INT + RAIN_R_EXT) / 2;  // rayon centre (10mm)
-D_CANAL_BP  = 3;     // Ø canal radial (anneau → raccord)
-D_RACCORD   = 6.2;   // Ø alésage pour tuyau plastique OD 6mm (press-fit)
-L_RACCORD   = 8;     // profondeur d'insertion tuyau
-Z_RADIAL    = H_FILET + RAIN_D / 2 + 2;  // hauteur abs. trous radiaux (+2mm au-dessus du filetage)
+RAIN_R_EXT  = 12.0;                 // rayon extérieur anneau (fixe, paroi épaisse pour taraudage)
+RAIN_W      = RAIN_R_EXT - RAIN_R_INT;  // largeur anneau (5.5mm)
+RAIN_R      = (RAIN_R_INT + RAIN_R_EXT) / 2;  // rayon centre (9.25mm)
+Z_RADIAL    = H_FILET + RAIN_D / 2 + 4;  // hauteur abs. trous radiaux (+4mm au-dessus du filetage)
 
-// --- Entrée eau HP (raccord HPLC 10-32 UNF) ---
-D_ENTREE_HP = 3.5;   // Ø avant-trou taraudage 10-32 UNF (taraudé à la main)
-H_TARAUD_HP = 6;     // profondeur taraudage
+// --- Raccords coudés G1/8" BSP pour tubes 6mm OD ---
+D_TARAUD    = 8.8;   // Ø avant-trou taraudage G1/8" BSP
+L_TARAUD    = 10;    // profondeur taraudage
+D_MEPLAT    = 2;     // profondeur du méplat (usinage surface plate)
+H_MEPLAT    = 14;    // hauteur du méplat (Z)
+W_MEPLAT    = 14;    // largeur du méplat (Y)
 
 // --- Vis de collimation (2 rangées de 3 à 120°, décalées de 60°) ---
 D_VIS       = 2.5;   // Ø perçage M2.5
@@ -250,30 +250,27 @@ module piece_A() {
                 translate([RAIN_R_INT, 0])
                     square([RAIN_W, RAIN_D + 0.1]);
 
-        // --- Raccord entrée eau BP (0°, radial au milieu de la chambre) ---
-        // Alésage Ø6.2 pour tuyau plastique OD 6mm (press-fit)
-        rotate([0, 0, 0])
+        // --- Méplat + taraudage entrée eau BP (0°, G1/8" BSP) ---
+        rotate([0, 0, 0]) {
+            // Méplat (surface plate pour raccord coudé)
+            translate([R_EXT - D_MEPLAT, -W_MEPLAT/2, H_FILET])
+                cube([D_MEPLAT + 10, W_MEPLAT, H_MEPLAT]);
+            // Taraudage G1/8" BSP (traverse la paroi jusqu'à la chambre)
             translate([0, 0, Z_RADIAL])
                 rotate([0, 90, 0])
-                    union() {
-                        // Alésage tuyau (depuis l'extérieur)
-                        translate([0, 0, R_EXT - L_RACCORD])
-                            cylinder(d=D_RACCORD, h=L_RACCORD + 1);
-                        // Canal étroit vers la chambre annulaire
-                        translate([0, 0, RAIN_R_EXT - 0.1])
-                            cylinder(d=D_CANAL_BP, h=R_EXT - RAIN_R_EXT - L_RACCORD + 1);
-                    }
+                    translate([0, 0, RAIN_R_EXT - 0.5])
+                        cylinder(d=D_TARAUD, h=R_EXT + 1);
+        }
 
-        // --- Raccord sortie eau BP (180°, radial au milieu de la chambre) ---
-        rotate([0, 0, 180])
+        // --- Méplat + taraudage sortie eau BP (180°, G1/8" BSP) ---
+        rotate([0, 0, 180]) {
+            translate([R_EXT - D_MEPLAT, -W_MEPLAT/2, H_FILET])
+                cube([D_MEPLAT + 10, W_MEPLAT, H_MEPLAT]);
             translate([0, 0, Z_RADIAL])
                 rotate([0, 90, 0])
-                    union() {
-                        translate([0, 0, R_EXT - L_RACCORD])
-                            cylinder(d=D_RACCORD, h=L_RACCORD + 1);
-                        translate([0, 0, RAIN_R_EXT - 0.1])
-                            cylinder(d=D_CANAL_BP, h=R_EXT - RAIN_R_EXT - L_RACCORD + 1);
-                    }
+                    translate([0, 0, RAIN_R_EXT - 0.5])
+                        cylinder(d=D_TARAUD, h=R_EXT + 1);
+        }
 
         // --- Gorge joint BP face (étanche le circuit entre A et B) ---
         gorge_torique_face(OR_BP_ID, OR_BP_CS, GR_BP_W, GR_BP_D, H_FILET - GR_BP_W/2);
@@ -350,17 +347,15 @@ module piece_B() {
         translate([0, 0, H_BUSE])
             cylinder(d=D_CHAMBRE, h=H_CHAMBRE);
 
-        // --- Entrée eau HP (latérale, taraudage 10-32 UNF pour raccord HPLC) ---
-        // Avant-trou Ø3.5 borgne (extérieur → chambre) + taraudage 6mm
+        // --- Méplat + taraudage entrée eau HP (G1/8" BSP pour raccord coudé) ---
+        // Méplat sur le corps
+        translate([R_EXT - D_MEPLAT, -W_MEPLAT/2, H_BUSE + H_CHAMBRE/2 - H_MEPLAT/2])
+            cube([D_MEPLAT + 10, W_MEPLAT, H_MEPLAT]);
+        // Taraudage G1/8" BSP (traverse la paroi jusqu'à la chambre HP)
         translate([0, 0, H_BUSE + H_CHAMBRE / 2])
-            rotate([0, 90, 0]) {
-                // Avant-trou borgne jusqu'à la chambre
+            rotate([0, 90, 0])
                 translate([0, 0, D_CHAMBRE/2 - 0.1])
-                    cylinder(d=D_ENTREE_HP, h=R_EXT - D_CHAMBRE/2 + 1);
-                // Alésage taraudage côté extérieur
-                translate([0, 0, R_EXT - H_TARAUD_HP])
-                    cylinder(d=D_ENTREE_HP + 0.6, h=H_TARAUD_HP + 0.1);
-            }
+                    cylinder(d=D_TARAUD, h=R_EXT + 1);
 
         // --- Logement buse + filetage interne BAS (reçoit pièce C) ---
         // Alésage traversant pour la buse (accessible par le bas quand C retiré)
