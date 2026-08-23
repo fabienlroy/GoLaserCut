@@ -136,7 +136,7 @@ module filet_male(d_nom, pitch, h) {
     }
 }
 
-module filet_femelle(d_nom, pitch, h) {
+module filet_femelle_ridges(d_nom, pitch, h) {
     H = pitch * sqrt(3) / 2;
     dp = 5 * H / 8;
     d_min = d_nom - 2 * dp;
@@ -144,20 +144,25 @@ module filet_femelle(d_nom, pitch, h) {
     n = h / pitch;
     sl = round(n * 24);
 
-    difference() {
-        cylinder(d=d_nom + 0.2, h=h);
-        intersection() {
-            difference() {
-                cylinder(d=d_nom + 0.4, h=h + 0.01);
-                cylinder(d=d_min, h=h + 0.02);
-            }
-            translate([0, 0, -pitch])
-                linear_extrude(height=h + 2*pitch, twist=-(n+2)*360,
-                              slices=sl + 48, convexity=10)
-                    translate([r_mid, 0])
-                        circle(r=dp, $fn=3);
+    intersection() {
+        difference() {
+            cylinder(d=d_nom + 2, h=h);
+            cylinder(d=d_min, h=h + 0.01);
         }
+        translate([0, 0, -pitch])
+            linear_extrude(height=h + 2*pitch, twist=-(n+2)*360,
+                          slices=sl + 48, convexity=10)
+                translate([r_mid, 0])
+                    circle(r=dp, $fn=3);
     }
+}
+
+module filet_femelle(d_nom, pitch, h) {
+    H = pitch * sqrt(3) / 2;
+    dp = 5 * H / 8;
+    d_min = d_nom - 2 * dp;
+    r_mid = (d_nom + d_min) / 4;
+    cylinder(d=2 * (r_mid - dp * 0.3), h=h);
 }
 
 // --- Modules chanfrein 1mm ---
@@ -311,10 +316,20 @@ module piece_A() {
 module piece_B() {
     color("Peru", 0.8)
     difference() {
-        // --- Corps plein ---
-        cylinder(d=D_EXT, h=H_B);
+        union() {
+            // --- Corps plein ---
+            cylinder(d=D_EXT, h=H_B);
 
-        // --- Filetage interne HAUT M20 × 0.7 (reçoit pièce A) ---
+            // --- Crêtes filetage M20 (solidaires du corps) ---
+            translate([0, 0, H_B - H_FILET - 0.01])
+                filet_femelle_ridges(D_FILET, PAS_FILET, H_FILET + 0.02);
+
+            // --- Crêtes filetage M10 (solidaires du corps) ---
+            translate([0, 0, -0.01])
+                filet_femelle_ridges(D_FILET_C, PAS_FILET, H_FILET_C + 0.01);
+        }
+
+        // --- Alésage filetage HAUT M20 × 0.7 (reçoit pièce A) ---
         translate([0, 0, H_B - H_FILET - 0.01])
             filet_femelle(D_FILET, PAS_FILET, H_FILET + 0.02);
 
