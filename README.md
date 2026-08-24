@@ -38,6 +38,21 @@ Requires Go 1.22+.
 - Material profiles (plywood, acrylic, thin steel)
 - Native GUI via [Gio](https://gioui.org) — no Electron, no webview
 
+## 30 MPa Water-Jet Guided Laser Head
+
+Parametric OpenSCAD model of a water-jet guided laser cutting head (30 MPa, 1 kW fiber laser).
+
+- [3D Viewer](https://claude.ai/code/artifact/5d1fa2bf-d95c-4771-8e8f-19089802bc26) — Interactive WebGL viewer (explode, clip, toggle pieces)
+- [DIY vs Industrial Comparison](https://claude.ai/code/artifact/5689606b-0189-43bd-8e68-c377c5c5598c) — Cost and specs vs Synova LMJ, Chinese WJGL
+- [Cutting Performance](https://claude.ai/code/artifact/58c09f3d-e962-4e3f-971e-371441b1937c) — Speed, depth (single & multi-pass), kerf, cut quality
+
+Source files in [`30MPaLaserGuide/`](30MPaLaserGuide/):
+- `head_laser_waterjet.scad` — Parametric CAD model (3 pieces, M20/M10 threads, G1/8" BSP fittings)
+- `BillOfMaterial.txt` — Full BOM with suppliers and pricing (~3 000 EUR total)
+- `viewer_3d.html` — Standalone WebGL viewer (embedded meshes)
+- `comparison.html` — DIY vs industrial comparison
+- `cutting_performance.html` — Cutting performance data
+
 ## Support this project
 
 If you find GoLaserCut useful, consider buying me a coffee:
