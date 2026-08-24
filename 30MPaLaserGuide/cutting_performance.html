@@ -126,23 +126,28 @@
 
 <div class="page">
   <h1>Cutting Performance: DIY 1 kW vs Industrial</h1>
-  <p class="subtitle">Speed, depth, and kerf comparison — GoLaserCut 30 MPa CW vs Synova LMJ pulsed systems</p>
+  <p class="subtitle">Speed, depth, and kerf — GoLaserCut 30 MPa in CW, QCW, and vs Synova LMJ pulsed</p>
 
-  <div class="summary">
+  <div class="summary" style="grid-template-columns: repeat(4, 1fr);">
     <div class="scard">
-      <div class="scard-label">DIY Power Advantage</div>
-      <div class="scard-val" style="color:var(--diy)">5-20x</div>
-      <div class="scard-sub">more power than most Synova</div>
+      <div class="scard-label">CW Power</div>
+      <div class="scard-val" style="color:var(--diy)">1 kW</div>
+      <div class="scard-sub">continuous, max speed</div>
+    </div>
+    <div class="scard">
+      <div class="scard-label">QCW Peak Power</div>
+      <div class="scard-val" style="color:var(--good)">~10 kW</div>
+      <div class="scard-sub">pump modulation @10% duty</div>
     </div>
     <div class="scard">
       <div class="scard-label">Kerf Width</div>
       <div class="scard-val" style="color:var(--accent)">~100 &micro;m</div>
-      <div class="scard-sub">kerf &asymp; nozzle &empty;, both systems</div>
+      <div class="scard-sub">kerf &asymp; nozzle &empty;, all modes</div>
     </div>
     <div class="scard">
-      <div class="scard-label">CW vs Pulsed HAZ</div>
-      <div class="scard-val" style="color:var(--bad)">3-10x</div>
-      <div class="scard-sub">larger HAZ with CW laser</div>
+      <div class="scard-label">QCW vs CW HAZ</div>
+      <div class="scard-val" style="color:var(--good)">3-5x</div>
+      <div class="scard-sub">smaller HAZ in QCW mode</div>
     </div>
   </div>
 
@@ -155,7 +160,7 @@
         <th class="col-thick">Thickness</th>
         <th class="th-ind">Synova 200 W pulsed</th>
         <th class="th-diy">DIY 1 kW CW</th>
-        <th>Speed Ratio</th>
+        <th class="th-diy" style="color:var(--good)">DIY QCW ~10 kW peak</th>
       </tr>
     </thead>
     <tbody>
@@ -165,35 +170,35 @@
         <td class="mono">0.5 mm</td>
         <td class="col-ind mono">100 - 200 mm/min</td>
         <td class="col-diy mono est">400 - 800 mm/min</td>
-        <td class="mono fast">~4x faster</td>
+        <td class="col-diy mono est">200 - 400 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">Stainless steel</td>
         <td class="mono">1.0 mm</td>
         <td class="col-ind mono">30 - 80 mm/min</td>
         <td class="col-diy mono est">150 - 400 mm/min</td>
-        <td class="mono fast">~5x faster</td>
+        <td class="col-diy mono est">80 - 200 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">Stainless steel</td>
         <td class="mono">3.0 mm</td>
         <td class="col-ind mono">5 - 15 mm/min</td>
         <td class="col-diy mono est">30 - 80 mm/min</td>
-        <td class="mono fast">~5x faster</td>
+        <td class="col-diy mono est">15 - 40 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">Aluminum</td>
         <td class="mono">1.0 mm</td>
         <td class="col-ind mono">150 - 300 mm/min</td>
         <td class="col-diy mono est">500 - 1200 mm/min</td>
-        <td class="mono fast">~4x faster</td>
+        <td class="col-diy mono est">250 - 600 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">Titanium</td>
         <td class="mono">1.0 mm</td>
         <td class="col-ind mono">50 - 120 mm/min</td>
         <td class="col-diy mono est">200 - 500 mm/min</td>
-        <td class="mono fast">~4x faster</td>
+        <td class="col-diy mono est">100 - 250 mm/min</td>
       </tr>
 
       <tr class="sec"><td colspan="5">Semiconductors &amp; Optics</td></tr>
@@ -202,28 +207,28 @@
         <td class="mono">0.3 mm</td>
         <td class="col-ind mono">200 - 500 mm/min</td>
         <td class="col-diy mono est">300 - 600 mm/min</td>
-        <td class="mono mid">~1.5x faster</td>
+        <td class="col-diy mono est">200 - 400 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">Silicon wafer</td>
         <td class="mono">0.7 mm</td>
         <td class="col-ind mono">80 - 200 mm/min</td>
         <td class="col-diy mono est">150 - 350 mm/min</td>
-        <td class="mono mid">~2x faster</td>
+        <td class="col-diy mono est">100 - 250 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">Sapphire</td>
         <td class="mono">0.5 mm</td>
         <td class="col-ind mono">20 - 60 mm/min</td>
         <td class="col-diy mono est">40 - 100 mm/min</td>
-        <td class="mono mid">~2x faster</td>
+        <td class="col-diy mono est">30 - 80 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">SiC</td>
         <td class="mono">0.35 mm</td>
         <td class="col-ind mono">30 - 80 mm/min</td>
         <td class="col-diy mono est">50 - 120 mm/min</td>
-        <td class="mono mid">~1.5x faster</td>
+        <td class="col-diy mono est">40 - 90 mm/min</td>
       </tr>
 
       <tr class="sec"><td colspan="5">Ceramics &amp; Composites</td></tr>
@@ -232,21 +237,21 @@
         <td class="mono">1.0 mm</td>
         <td class="col-ind mono">20 - 50 mm/min</td>
         <td class="col-diy mono est">60 - 150 mm/min</td>
-        <td class="mono fast">~3x faster</td>
+        <td class="col-diy mono est">30 - 80 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">CFRP composite</td>
         <td class="mono">2.0 mm</td>
         <td class="col-ind mono">50 - 150 mm/min</td>
         <td class="col-diy mono est">200 - 500 mm/min</td>
-        <td class="mono fast">~3x faster</td>
+        <td class="col-diy mono est">100 - 250 mm/min</td>
       </tr>
       <tr>
         <td class="col-mat">Glass (borosilicate)</td>
         <td class="mono">1.0 mm</td>
         <td class="col-ind mono">40 - 100 mm/min</td>
         <td class="col-diy mono est">80 - 200 mm/min</td>
-        <td class="mono mid">~2x faster</td>
+        <td class="col-diy mono est">50 - 120 mm/min</td>
       </tr>
     </tbody>
   </table>
@@ -372,53 +377,123 @@
     </div>
   </div>
 
-  <h2>Cut Quality: CW vs Pulsed</h2>
+  <h2>QCW Pump Modulation — Game Changer for DIY</h2>
+  <p style="color:var(--text-dim); font-size:0.9rem; margin-bottom:1rem;">
+    If the laser driver accepts a TTL/analog modulation input, the 1 kW fiber laser can operate in
+    <strong style="color:var(--good)">Quasi-CW (QCW)</strong> mode by pulsing the pump diodes.
+    At 10% duty cycle, peak power reaches ~10 kW with 100 W average — closing the quality gap with industrial pulsed systems.
+  </p>
+
+  <div class="overflow-x">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-mat">Parameter</th>
+        <th class="th-diy">CW Mode</th>
+        <th class="th-diy" style="color:var(--good)">QCW Mode</th>
+        <th class="th-ind">Industrial ns Pulsed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="col-mat">Peak power</td>
+        <td class="col-diy mono">1 000 W</td>
+        <td class="col-diy mono" style="color:var(--good)">~10 000 W</td>
+        <td class="col-ind mono">10 - 50 kW</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Average power</td>
+        <td class="col-diy mono">1 000 W</td>
+        <td class="col-diy mono">50 - 200 W</td>
+        <td class="col-ind mono">50 - 500 W</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Pulse width</td>
+        <td class="col-diy">N/A (continuous)</td>
+        <td class="col-diy mono">50 - 500 &micro;s</td>
+        <td class="col-ind mono">1 - 200 ns</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Frequency</td>
+        <td class="col-diy">N/A</td>
+        <td class="col-diy mono">1 - 50 kHz</td>
+        <td class="col-ind mono">10 - 500 kHz</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Duty cycle</td>
+        <td class="col-diy mono">100%</td>
+        <td class="col-diy mono">5 - 50%</td>
+        <td class="col-ind mono">0.1 - 5%</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Material removal</td>
+        <td class="col-diy">Melting + vaporization</td>
+        <td class="col-diy" style="color:var(--good)">Vaporization dominant</td>
+        <td class="col-ind">Cold ablation</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Requirement</td>
+        <td class="col-diy">None</td>
+        <td class="col-diy">TTL/analog input on driver</td>
+        <td class="col-ind">Dedicated pulsed source</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Cut Quality: CW vs QCW vs Pulsed</h2>
   <div class="overflow-x">
   <table>
     <thead>
       <tr>
         <th class="col-mat">Quality Factor</th>
-        <th class="th-diy">DIY 1 kW CW</th>
+        <th class="th-diy">DIY CW</th>
+        <th class="th-diy" style="color:var(--good)">DIY QCW</th>
         <th class="th-ind">Industrial Pulsed (ns)</th>
-        <th>Impact</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="col-mat">Heat-affected zone</td>
         <td class="col-diy mono">20 - 80 &micro;m</td>
+        <td class="col-diy mono" style="color:var(--good)">5 - 25 &micro;m</td>
         <td class="col-ind mono">2 - 15 &micro;m</td>
-        <td>Pulsed wins: cold ablation, minimal thermal damage</td>
       </tr>
       <tr>
         <td class="col-mat">Surface roughness (Ra)</td>
         <td class="col-diy mono">3 - 10 &micro;m</td>
+        <td class="col-diy mono" style="color:var(--good)">1 - 4 &micro;m</td>
         <td class="col-ind mono">0.5 - 1 &micro;m</td>
-        <td>Pulsed wins: Ra 0.7 &micro;m reported on superalloys</td>
       </tr>
       <tr>
         <td class="col-mat">Recast layer</td>
         <td class="col-diy mono">5 - 30 &micro;m</td>
+        <td class="col-diy mono" style="color:var(--good)">1 - 10 &micro;m</td>
         <td class="col-ind mono">0 - 5 &micro;m</td>
-        <td>Pulsed wins: less melted material redeposited</td>
       </tr>
       <tr>
         <td class="col-mat">Taper angle</td>
         <td class="col-diy mono">&lt; 1&deg;</td>
+        <td class="col-diy mono">&lt; 0.5&deg;</td>
         <td class="col-ind mono">&lt; 0.5&deg;</td>
-        <td>Both excellent: water jet maintains beam collimation</td>
       </tr>
       <tr>
         <td class="col-mat">Burr / dross</td>
         <td class="col-diy">Minimal (water flushes)</td>
+        <td class="col-diy" style="color:var(--good)">Very low</td>
         <td class="col-ind">None</td>
-        <td>Both good: water jet removes debris during cut</td>
       </tr>
       <tr>
         <td class="col-mat">Thermal cracking risk</td>
         <td class="col-diy slow">Moderate on brittle materials</td>
+        <td class="col-diy" style="color:var(--good)">Low</td>
         <td class="col-ind fast">Very low</td>
-        <td>Pulsed wins: critical for glass, ceramics, Si</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Cutting speed</td>
+        <td class="col-diy fast">Fastest (max avg power)</td>
+        <td class="col-diy mid">Slower (reduced duty cycle)</td>
+        <td class="col-ind">Moderate</td>
       </tr>
     </tbody>
   </table>
@@ -462,6 +537,16 @@
         <li>50+ MPa needed for deep cuts (&gt;5 mm) and hard ceramics</li>
       </ul>
     </div>
+    <div class="fcard" style="border-color:var(--good)">
+      <h3 style="color:var(--good)">QCW: Best of Both Worlds</h3>
+      <ul>
+        <li><strong>Same hardware</strong>: just TTL-modulate the pump diodes</li>
+        <li>10 kW peak vaporizes instead of melting: 3-4x less HAZ than CW</li>
+        <li>Trade speed for quality: adjust duty cycle per material/job</li>
+        <li>CW for roughing passes, QCW for finishing pass on same part</li>
+        <li>No extra cost if driver has TTL/analog input (most do)</li>
+      </ul>
+    </div>
   </div>
 
   <h2>Where Each System Excels</h2>
@@ -470,7 +555,8 @@
     <thead>
       <tr>
         <th class="col-mat">Application</th>
-        <th class="th-diy">DIY 1 kW CW</th>
+        <th class="th-diy">DIY CW</th>
+        <th class="th-diy" style="color:var(--good)">DIY QCW</th>
         <th class="th-ind">Industrial Pulsed</th>
         <th>Best Choice</th>
       </tr>
@@ -479,44 +565,58 @@
       <tr>
         <td class="col-mat">Thick metal cutting (&gt;2 mm)</td>
         <td class="col-diy fast">Excellent</td>
+        <td class="col-diy mid">Good (slower)</td>
         <td class="col-ind mid">Limited</td>
-        <td class="mono" style="color:var(--diy)">DIY</td>
+        <td class="mono" style="color:var(--diy)">DIY CW</td>
       </tr>
       <tr>
         <td class="col-mat">Sheet metal prototyping</td>
         <td class="col-diy fast">Fast, good enough</td>
+        <td class="col-diy fast" style="color:var(--good)">Fast + clean finish</td>
         <td class="col-ind">Precise, slower</td>
-        <td class="mono" style="color:var(--diy)">DIY</td>
+        <td class="mono" style="color:var(--good)">DIY QCW</td>
       </tr>
       <tr>
         <td class="col-mat">CFRP / composites</td>
-        <td class="col-diy fast">Fast, some delamination risk</td>
+        <td class="col-diy mid">Fast, delamination risk</td>
+        <td class="col-diy fast" style="color:var(--good)">Low delamination</td>
         <td class="col-ind fast">Clean, no delamination</td>
-        <td class="mono" style="color:var(--neutral)">Depends</td>
+        <td class="mono" style="color:var(--good)">DIY QCW</td>
       </tr>
       <tr>
         <td class="col-mat">Semiconductor dicing</td>
         <td class="col-diy slow">Too much HAZ</td>
-        <td class="col-ind fast">Ideal</td>
+        <td class="col-diy mid">Marginal (HAZ 5-25 &micro;m)</td>
+        <td class="col-ind fast">Ideal (&lt;5 &micro;m HAZ)</td>
         <td class="mono" style="color:var(--ind)">Industrial</td>
       </tr>
       <tr>
         <td class="col-mat">Medical implants</td>
-        <td class="col-diy slow">Recast layer unacceptable</td>
+        <td class="col-diy slow">Recast unacceptable</td>
+        <td class="col-diy mid">Recast 1-10 &micro;m</td>
         <td class="col-ind fast">Clean, certified</td>
         <td class="mono" style="color:var(--ind)">Industrial</td>
       </tr>
       <tr>
         <td class="col-mat">Watch / jewelry parts</td>
         <td class="col-diy mid">Adequate for rough cuts</td>
+        <td class="col-diy fast" style="color:var(--good)">Good surface finish</td>
         <td class="col-ind fast">Precision finish</td>
-        <td class="mono" style="color:var(--ind)">Industrial</td>
+        <td class="mono" style="color:var(--neutral)">QCW / Ind.</td>
       </tr>
       <tr>
         <td class="col-mat">R&amp;D / experimentation</td>
-        <td class="col-diy fast">Flexible, cheap to run</td>
+        <td class="col-diy fast">Flexible, cheap</td>
+        <td class="col-diy fast" style="color:var(--good)">CW + QCW modes</td>
         <td class="col-ind mid">Expensive per hour</td>
-        <td class="mono" style="color:var(--diy)">DIY</td>
+        <td class="mono" style="color:var(--good)">DIY (both)</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Ceramics / glass</td>
+        <td class="col-diy slow">Cracking risk</td>
+        <td class="col-diy fast" style="color:var(--good)">Low cracking risk</td>
+        <td class="col-ind fast">Ideal</td>
+        <td class="mono" style="color:var(--good)">DIY QCW</td>
       </tr>
     </tbody>
   </table>
@@ -524,8 +624,9 @@
 
   <p class="note">
     <strong>* Estimated values</strong> for the DIY system are extrapolated from published Synova data scaled by
-    power ratio (5x) with efficiency corrections for CW vs pulsed operation. Actual performance depends on
-    beam-to-jet coupling efficiency, nozzle quality, water purity, and focus alignment.
+    power ratio (5x) with efficiency corrections for CW vs pulsed operation. QCW estimates assume
+    10% duty cycle (~100 W average, ~10 kW peak) with speed proportional to average power and quality
+    improvements from vaporization-dominant material removal.
     Key advantage of WJGL: aspect ratio up to 100:1 (depth:kerf) vs ~10:1 for conventional laser.
     Industrial data: Synova app notes (Si 7mm at 45 mm/min, superalloy 15mm deep), Pulsar Photonics,
     published research (Marimuthu et al., CIRP Annals; Richerzhagen et al., Proc. SPIE).
