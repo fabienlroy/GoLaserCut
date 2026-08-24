@@ -379,10 +379,35 @@
 
   <h2>QCW Pump Modulation — Game Changer for DIY</h2>
   <p style="color:var(--text-dim); font-size:0.9rem; margin-bottom:1rem;">
-    If the laser driver accepts a TTL/analog modulation input, the 1 kW fiber laser can operate in
-    <strong style="color:var(--good)">Quasi-CW (QCW)</strong> mode by pulsing the pump diodes.
-    At 10% duty cycle, peak power reaches ~10 kW with 100 W average — closing the quality gap with industrial pulsed systems.
+    The 1 kW fiber laser driver has <strong>GND, TTL, +5V, Enable, PWM, GND</strong> pins.
+    Driving the <strong style="color:var(--good)">TTL</strong> or <strong style="color:var(--good)">PWM</strong>
+    input with a signal generator or microcontroller enables
+    <strong style="color:var(--good)">Quasi-CW (QCW)</strong> mode — pulsing the pump diodes.
+    At 10% duty cycle, peak power reaches ~10 kW with ~100 W average — closing the quality gap with industrial pulsed systems.
   </p>
+
+  <div class="factors" style="margin-bottom:1.2rem">
+    <div class="fcard" style="border-color:var(--good)">
+      <h3 style="color:var(--good)">Driver Pinout</h3>
+      <ul>
+        <li><strong>GND</strong> — ground reference (2 pins)</li>
+        <li><strong>+5V</strong> — logic supply output</li>
+        <li><strong>Enable</strong> — HIGH to arm laser emission</li>
+        <li><strong>TTL</strong> — gate signal: HIGH = fire, LOW = off (for QCW gating)</li>
+        <li><strong>PWM</strong> — analog/PWM power level (0-5V or 0-10V = 0-100%)</li>
+      </ul>
+    </div>
+    <div class="fcard" style="border-color:var(--good)">
+      <h3 style="color:var(--good)">QCW Wiring</h3>
+      <ul>
+        <li><strong>PWM &rarr; 5V</strong> (or pot) to set peak power at 100%</li>
+        <li><strong>Enable &rarr; HIGH</strong> to arm the laser</li>
+        <li><strong>TTL &rarr; signal generator</strong> or MCU (Arduino, ESP32)</li>
+        <li>Square wave: 1-50 kHz, 5-50% duty cycle</li>
+        <li>CW mode: TTL held HIGH, PWM sets continuous power</li>
+      </ul>
+    </div>
+  </div>
 
   <div class="overflow-x">
   <table>
@@ -434,7 +459,7 @@
       <tr>
         <td class="col-mat">Requirement</td>
         <td class="col-diy">None</td>
-        <td class="col-diy">TTL/analog input on driver</td>
+        <td class="col-diy" style="color:var(--good)">TTL pin + signal gen / MCU</td>
         <td class="col-ind">Dedicated pulsed source</td>
       </tr>
     </tbody>
@@ -540,11 +565,11 @@
     <div class="fcard" style="border-color:var(--good)">
       <h3 style="color:var(--good)">QCW: Best of Both Worlds</h3>
       <ul>
-        <li><strong>Same hardware</strong>: just TTL-modulate the pump diodes</li>
+        <li><strong>Same hardware</strong>: driver has TTL + PWM pins ready</li>
         <li>10 kW peak vaporizes instead of melting: 3-4x less HAZ than CW</li>
         <li>Trade speed for quality: adjust duty cycle per material/job</li>
         <li>CW for roughing passes, QCW for finishing pass on same part</li>
-        <li>No extra cost if driver has TTL/analog input (most do)</li>
+        <li>Only needs a signal generator or Arduino/ESP32 on TTL pin</li>
       </ul>
     </div>
   </div>
