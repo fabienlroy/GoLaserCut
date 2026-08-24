@@ -1,0 +1,437 @@
+<title>Water-Jet Guided Laser Comparison</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  :root {
+    --bg: #0c1220;
+    --bg-card: #111a2c;
+    --bg-card-alt: #0f1626;
+    --border: #1e2d46;
+    --text: #c8d4e0;
+    --text-dim: #6a7e94;
+    --text-heading: #e4ecf4;
+    --accent: #4d8fd6;
+    --diy-gold: #d4a046;
+    --diy-gold-dim: rgba(212, 160, 70, 0.12);
+    --industrial: #2a8a7a;
+    --industrial-dim: rgba(42, 138, 122, 0.10);
+    --cost-red: #c45a4a;
+    --cost-green: #4aad6a;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f0f2f5;
+      --bg-card: #ffffff;
+      --bg-card-alt: #f7f8fa;
+      --border: #d4dae2;
+      --text: #2a3444;
+      --text-dim: #6a7888;
+      --text-heading: #141e2c;
+      --accent: #2a6aaa;
+      --diy-gold: #a67820;
+      --diy-gold-dim: rgba(166, 120, 32, 0.08);
+      --industrial: #1a6a5e;
+      --industrial-dim: rgba(26, 106, 94, 0.07);
+      --cost-red: #b04030;
+      --cost-green: #2a8a4a;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f0f2f5;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f7f8fa;
+    --border: #d4dae2;
+    --text: #2a3444;
+    --text-dim: #6a7888;
+    --text-heading: #141e2c;
+    --accent: #2a6aaa;
+    --diy-gold: #a67820;
+    --diy-gold-dim: rgba(166, 120, 32, 0.08);
+    --industrial: #1a6a5e;
+    --industrial-dim: rgba(26, 106, 94, 0.07);
+    --cost-red: #b04030;
+    --cost-green: #2a8a4a;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1220;
+    --bg-card: #111a2c;
+    --bg-card-alt: #0f1626;
+    --border: #1e2d46;
+    --text: #c8d4e0;
+    --text-dim: #6a7e94;
+    --text-heading: #e4ecf4;
+    --accent: #4d8fd6;
+    --diy-gold: #d4a046;
+    --diy-gold-dim: rgba(212, 160, 70, 0.12);
+    --industrial: #2a8a7a;
+    --industrial-dim: rgba(42, 138, 122, 0.10);
+    --cost-red: #c45a4a;
+    --cost-green: #4aad6a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    padding: 2rem 1rem;
+  }
+  .page { max-width: 860px; margin: 0 auto; }
+
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 0.25rem;
+    text-wrap: balance;
+  }
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Cost callout */
+  .callout {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .callout-ratio {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--cost-green);
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .callout-ratio span { font-size: 1.1rem; color: var(--text-dim); }
+  .callout-text { font-size: 0.92rem; color: var(--text-dim); line-height: 1.5; }
+  .callout-text strong { color: var(--text); }
+
+  /* Comparison table */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+  .comp-table th, .comp-table td {
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+  .comp-table thead th {
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .comp-table thead th:nth-child(2) { color: var(--diy-gold); }
+  .comp-table thead th:nth-child(3) { color: var(--industrial); }
+  .comp-table thead th:nth-child(4) { color: var(--industrial); }
+  .comp-table thead th:nth-child(5) { color: var(--industrial); }
+  .col-spec { width: 18%; color: var(--text-dim); font-weight: 600; font-size: 0.82rem; }
+  .col-diy { background: var(--diy-gold-dim); }
+  .col-ind { background: var(--industrial-dim); }
+  .comp-table tbody tr:last-child td { border-bottom: none; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+  .section-row td {
+    padding-top: 1rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+  }
+  .price-row td { font-weight: 700; }
+  .price-diy { color: var(--cost-green); font-family: 'JetBrains Mono', monospace; }
+  .price-ind { color: var(--cost-red); font-family: 'JetBrains Mono', monospace; }
+
+  /* Pros/Cons */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+  }
+  .card h3 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.6rem;
+  }
+  .card-diy h3 { color: var(--diy-gold); }
+  .card-ind h3 { color: var(--industrial); }
+  .card ul {
+    list-style: none;
+    padding: 0;
+    font-size: 0.88rem;
+  }
+  .card li {
+    padding: 0.25rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    color: var(--text);
+  }
+  .card li::before {
+    position: absolute;
+    left: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+  }
+  .pro li::before { content: '+'; color: var(--cost-green); }
+  .con li::before { content: '-'; color: var(--cost-red); }
+
+  .note {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+
+  .overflow-x { overflow-x: auto; }
+</style>
+
+<div class="page">
+  <h1>Water-Jet Guided Laser: DIY vs Industrial</h1>
+  <p class="subtitle">GoLaserCut 30 MPa / 1 kW compared with commercial systems of equivalent power</p>
+
+  <div class="callout">
+    <div class="callout-ratio">~2.5 <span>EUR/W</span></div>
+    <div class="callout-text">
+      The DIY build costs <strong>~3 000 EUR</strong> vs <strong>50 000 - 500 000 EUR</strong> for industrial systems.
+      That's <strong>~400x cheaper per watt</strong> than a Synova LCS 50.
+      The gap comes from CNC integration, pulsed laser source, software, safety certification, and support.
+    </div>
+  </div>
+
+  <div class="overflow-x">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th class="col-spec">Specification</th>
+        <th class="col-diy">GoLaserCut DIY</th>
+        <th class="col-ind">Synova LCS 50</th>
+        <th class="col-ind">Synova LCS 300</th>
+        <th class="col-ind">Chinese WJGL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="section-row"><td colspan="5">Laser</td></tr>
+      <tr>
+        <td class="col-spec">Type</td>
+        <td class="col-diy">Fiber laser</td>
+        <td class="col-ind">Fiber laser</td>
+        <td class="col-ind">Fiber laser</td>
+        <td class="col-ind">Fiber laser</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Power</td>
+        <td class="col-diy mono">1 000 W CW</td>
+        <td class="col-ind mono">50 - 200 W pulsed</td>
+        <td class="col-ind mono">200 - 500 W pulsed</td>
+        <td class="col-ind mono">500 - 2 000 W CW</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Wavelength</td>
+        <td class="col-diy mono">1070 nm</td>
+        <td class="col-ind mono">1064 / 532 nm</td>
+        <td class="col-ind mono">1064 nm</td>
+        <td class="col-ind mono">1070 nm</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Mode</td>
+        <td class="col-diy">CW (continuous)</td>
+        <td class="col-ind">ns pulsed (low HAZ)</td>
+        <td class="col-ind">ns pulsed (low HAZ)</td>
+        <td class="col-ind">CW or pulsed</td>
+      </tr>
+
+      <tr class="section-row"><td colspan="5">Water jet</td></tr>
+      <tr>
+        <td class="col-spec">Pressure</td>
+        <td class="col-diy mono">30 MPa</td>
+        <td class="col-ind mono">20 - 50 MPa</td>
+        <td class="col-ind mono">20 - 80 MPa</td>
+        <td class="col-ind mono">30 - 60 MPa</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Nozzle orifice</td>
+        <td class="col-diy mono">~100 &micro;m</td>
+        <td class="col-ind mono">25 - 100 &micro;m</td>
+        <td class="col-ind mono">50 - 150 &micro;m</td>
+        <td class="col-ind mono">50 - 200 &micro;m</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Water source</td>
+        <td class="col-diy">Used HPLC pump</td>
+        <td class="col-ind">Integrated HP pump</td>
+        <td class="col-ind">Integrated HP pump</td>
+        <td class="col-ind">Integrated HP pump</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Water quality</td>
+        <td class="col-diy">DI water (manual)</td>
+        <td class="col-ind">DI + filtration loop</td>
+        <td class="col-ind">DI + filtration loop</td>
+        <td class="col-ind">DI + filtration loop</td>
+      </tr>
+
+      <tr class="section-row"><td colspan="5">Head &amp; optics</td></tr>
+      <tr>
+        <td class="col-spec">Sapphire window</td>
+        <td class="col-diy mono">&empty;10 &times; 1.5 mm</td>
+        <td class="col-ind">AR coated, sealed</td>
+        <td class="col-ind">AR coated, sealed</td>
+        <td class="col-ind">AR coated, sealed</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Coupling</td>
+        <td class="col-diy">Manual collimation (6&times; M2.5 screws)</td>
+        <td class="col-ind">Motorized alignment</td>
+        <td class="col-ind">Motorized alignment</td>
+        <td class="col-ind">Motorized alignment</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Nozzle life</td>
+        <td class="col-diy">Unknown</td>
+        <td class="col-ind mono">&gt;500 h</td>
+        <td class="col-ind mono">&gt;500 h</td>
+        <td class="col-ind mono">~200 - 500 h</td>
+      </tr>
+
+      <tr class="section-row"><td colspan="5">System</td></tr>
+      <tr>
+        <td class="col-spec">CNC motion</td>
+        <td class="col-diy">Not included</td>
+        <td class="col-ind">5-axis integrated</td>
+        <td class="col-ind">5-axis integrated</td>
+        <td class="col-ind">Retrofit on CNC</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Software</td>
+        <td class="col-diy">None (manual)</td>
+        <td class="col-ind">Synova CAM suite</td>
+        <td class="col-ind">Synova CAM suite</td>
+        <td class="col-ind">G-code compatible</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Safety</td>
+        <td class="col-diy">DIY enclosure</td>
+        <td class="col-ind">Class 1, CE certified</td>
+        <td class="col-ind">Class 1, CE certified</td>
+        <td class="col-ind">CE certified</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Cooling</td>
+        <td class="col-diy">Vevor chiller</td>
+        <td class="col-ind">Integrated chiller</td>
+        <td class="col-ind">Integrated chiller</td>
+        <td class="col-ind">External chiller</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Support</td>
+        <td class="col-diy">Community / self</td>
+        <td class="col-ind">Full OEM support</td>
+        <td class="col-ind">Full OEM support</td>
+        <td class="col-ind">OEM support</td>
+      </tr>
+
+      <tr class="section-row"><td colspan="5">Cost</td></tr>
+      <tr>
+        <td class="col-spec">Cost / Watt</td>
+        <td class="col-diy mono price-diy">~2.5 EUR/W</td>
+        <td class="col-ind mono">~1 500 EUR/W</td>
+        <td class="col-ind mono">~1 000 EUR/W</td>
+        <td class="col-ind mono">~75 EUR/W</td>
+      </tr>
+      <tr class="price-row">
+        <td class="col-spec">System price</td>
+        <td class="col-diy price-diy">~3 000 EUR</td>
+        <td class="col-ind price-ind">150 000 - 300 000 EUR</td>
+        <td class="col-ind price-ind">300 000 - 500 000 EUR</td>
+        <td class="col-ind price-ind">50 000 - 150 000 EUR</td>
+      </tr>
+      <tr>
+        <td class="col-spec">Includes</td>
+        <td class="col-diy">Head + laser + pump only</td>
+        <td class="col-ind">Complete turnkey 5-axis</td>
+        <td class="col-ind">Complete turnkey 5-axis</td>
+        <td class="col-ind">3-5 axis CNC machine</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card card-diy">
+      <h3>DIY Build Advantages</h3>
+      <ul class="pro">
+        <li>Cost: ~100x cheaper than entry-level industrial</li>
+        <li>Full control over design and modifications</li>
+        <li>Learning platform for water-jet laser technology</li>
+        <li>Upgradeable: higher power laser, better pump</li>
+        <li>Open-source parametric CAD (OpenSCAD)</li>
+      </ul>
+    </div>
+    <div class="card card-diy">
+      <h3>DIY Build Limitations</h3>
+      <ul class="con">
+        <li>No CNC integration (manual positioning only)</li>
+        <li>Manual beam-to-jet alignment (6 set screws)</li>
+        <li>CW laser only: larger heat-affected zone than pulsed</li>
+        <li>No safety certification (Class 4 laser hazard)</li>
+        <li>No water filtration/recirculation loop</li>
+        <li>Sapphire nozzle lifetime &lt; diamond (industrial)</li>
+      </ul>
+    </div>
+    <div class="card card-ind">
+      <h3>Industrial Advantages</h3>
+      <ul class="pro">
+        <li>Turnkey solution with 5-axis CNC</li>
+        <li>Motorized auto-alignment of beam to jet</li>
+        <li>CE certified Class 1 enclosure</li>
+        <li>Proven process recipes for many materials</li>
+        <li>Integrated water treatment and monitoring</li>
+        <li>OEM support, training, spare parts</li>
+      </ul>
+    </div>
+    <div class="card card-ind">
+      <h3>Industrial Limitations</h3>
+      <ul class="con">
+        <li>Extremely high cost (300k - 1.5M EUR)</li>
+        <li>Proprietary software and consumables</li>
+        <li>Long lead times (6 - 12 months)</li>
+        <li>Locked down: no user modifications</li>
+        <li>Ongoing maintenance contracts required</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note">
+    <strong>Sources:</strong> Synova SA (Lausanne, Switzerland) pioneered water-jet guided laser (LMJ) technology
+    based on EPFL research. Pulsar Photonics (Germany) offers the RDX1000 LWJ platform.
+    Chinese manufacturers (DWC, etc.) offer lower-cost WJGL machines.
+    Industrial pricing from published data, trade shows, and used equipment listings;
+    actual quotes vary by configuration. DIY pricing from GoLaserCut BillOfMaterial.txt (August 2025).
+  </p>
+</div>
