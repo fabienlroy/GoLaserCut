@@ -647,6 +647,88 @@
   </table>
   </div>
 
+  <h2>Safety Interlocks — Class 4 Laser (IEC 60825)</h2>
+  <p style="color:var(--text-dim); font-size:0.9rem; margin-bottom:1rem;">
+    A 1 kW fiber laser is <strong style="color:var(--bad)">Class 4</strong> — the most dangerous class.
+    Combined with 30 MPa water, multiple independent interlocks are mandatory.
+    The Arduino/ESP32 QCW controller can also serve as the safety interlock controller.
+  </p>
+
+  <div class="overflow-x">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-mat">Sensor</th>
+        <th>Monitors</th>
+        <th>Interlock Action</th>
+        <th>Threshold</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="col-mat">HP pressure transducer</td>
+        <td>Water pressure at pump output (0-40 MPa)</td>
+        <td style="color:var(--bad)">Cut laser Enable + TTL LOW</td>
+        <td class="mono">P &lt; 20 MPa or P &gt; 35 MPa</td>
+      </tr>
+      <tr>
+        <td class="col-mat">LP flow sensor</td>
+        <td>Cooling water circulation in annular chamber</td>
+        <td style="color:var(--bad)">Cut laser Enable</td>
+        <td class="mono">Flow &lt; 1 L/min</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Water leak detector</td>
+        <td>Drip tray under laser head</td>
+        <td style="color:var(--bad)">Cut laser Enable + stop pump</td>
+        <td class="mono">Any water detected</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Enclosure door interlock</td>
+        <td>Laser enclosure door position (magnetic switch)</td>
+        <td style="color:var(--bad)">Cut laser Enable</td>
+        <td class="mono">Door open</td>
+      </tr>
+      <tr>
+        <td class="col-mat">E-stop button</td>
+        <td>Operator emergency (mushroom-head NC contact)</td>
+        <td style="color:var(--bad)">Cut laser Enable + pump power</td>
+        <td class="mono">Button pressed</td>
+      </tr>
+      <tr>
+        <td class="col-mat">Chiller temperature</td>
+        <td>Laser module coolant temperature</td>
+        <td style="color:var(--bad)">Cut laser Enable</td>
+        <td class="mono">T &gt; 25&deg;C</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="factors" style="margin-bottom:1.5rem">
+    <div class="fcard" style="border-color:var(--bad)">
+      <h3 style="color:var(--bad)">Interlock Logic (Arduino/ESP32)</h3>
+      <ul>
+        <li><strong>Enable pin</strong> = ALL interlocks OK (AND logic, fail-safe)</li>
+        <li>Any single sensor trip &rarr; Enable LOW &rarr; laser off in &lt;1 ms</li>
+        <li>HP pressure must be stable &gt; 20 MPa <strong>before</strong> laser Enable goes HIGH</li>
+        <li>Startup sequence: pump &rarr; wait pressure &rarr; flow OK &rarr; Enable &rarr; TTL</li>
+        <li>E-stop wired on hardware relay, not through MCU (fail-safe)</li>
+      </ul>
+    </div>
+    <div class="fcard" style="border-color:var(--bad)">
+      <h3 style="color:var(--bad)">Mandatory PPE &amp; Enclosure</h3>
+      <ul>
+        <li><strong>OD6+ goggles</strong> at 1070 nm — always worn near enclosure</li>
+        <li>Fully enclosed cutting chamber (sheet metal or acrylic OD6+)</li>
+        <li>Beam dump behind workpiece (anodized aluminum or graphite)</li>
+        <li>No reflective surfaces inside enclosure (matte black paint)</li>
+        <li>Fire extinguisher nearby (CO2, not water)</li>
+        <li>Visible warning light (red beacon) when laser is armed</li>
+      </ul>
+    </div>
+  </div>
+
   <p class="note">
     <strong>* Estimated values</strong> for the DIY system are extrapolated from published Synova data scaled by
     power ratio (5x) with efficiency corrections for CW vs pulsed operation. QCW estimates assume
