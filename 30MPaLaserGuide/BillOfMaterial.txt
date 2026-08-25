@@ -280,7 +280,7 @@ Red laser guide (G1+G2+G3)       :     80 -  260 EUR
 HPLC pump 40 MPa (used)          :           ~300 EUR
 HPLC connectors (6 pcs)          :     30 -  120 EUR
 HPLC tubing (2 m)                :     20 -   60 EUR
-RO unit (3-4 stage)              :     40 -  120 EUR
+Reverse osmosis unit (3-4 stage) :     40 -  120 EUR
 Water tank PE 30-100L            :     15 -   50 EUR
 Float valve                      :      3 -   10 EUR
 QCW controller (Nano/ESP32)      :      3 -   15 EUR
