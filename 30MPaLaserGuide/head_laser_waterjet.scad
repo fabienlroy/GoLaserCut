@@ -73,6 +73,32 @@ OR_N_CS     = 1.0;
 GR_N_W      = 1.4;
 GR_N_D      = 0.75;
 
+// --- Laser guide rouge (SMA905 + optique de focalisation) ---
+SMA_D_FERRULE  = 6.35;   // Ø ferrule SMA905
+SMA_D_BODY     = 8.0;    // Ø corps connecteur
+SMA_D_NUT      = 9.5;    // Ø écrou hexagonal
+SMA_H_FERRULE  = 5;      // longueur ferrule
+SMA_H_BODY     = 12;     // longueur corps connecteur
+SMA_H_NUT      = 4;      // hauteur écrou
+FOCUS_D        = 12;     // Ø tube optique de focalisation
+FOCUS_H        = 25;     // longueur tube optique
+FOCUS_D_LENS   = 8;      // Ø lentille interne
+FIBER_D        = 3;      // Ø câble fibre optique
+FIBER_L        = 40;     // longueur visible fibre
+
+// --- Réservoir eau (30-100L PE) ---
+TANK_L         = 400;    // longueur (mm)
+TANK_W         = 300;    // largeur
+TANK_H         = 420;    // hauteur (~50L)
+TANK_WALL      = 4;      // épaisseur paroi
+TANK_R         = 15;     // rayon congés
+
+// --- Osmose inverse ---
+RO_D           = 60;     // Ø membrane
+RO_L           = 250;    // longueur housing
+RO_D_CAP       = 50;     // Ø bouchons
+RO_D_PORT      = 8;      // Ø raccords entrée/sortie
+
 // --- Rendu ---
 $fn = 64;
 
@@ -215,6 +241,143 @@ module chanfrein_filet_femelle(d_filet, z_entree) {
     // Cone 45° × 1mm qui élargit l'entrée du filetage
     translate([0, 0, z_entree - 0.01])
         cylinder(d1=d_filet, d2=d_filet + 2*CHAMFER, h=CHAMFER + 0.01);
+}
+
+
+// ============ LASER GUIDE ROUGE (SMA905) ===================
+
+module sma905_connector() {
+    // Écrou hexagonal
+    color("Silver", 0.9)
+    translate([0, 0, SMA_H_BODY])
+        cylinder(d=SMA_D_NUT, h=SMA_H_NUT, $fn=6);
+
+    // Corps connecteur
+    color("DimGray", 0.9)
+    cylinder(d=SMA_D_BODY, h=SMA_H_BODY);
+
+    // Ferrule (dépasse en bas)
+    color("Silver")
+    translate([0, 0, -SMA_H_FERRULE])
+        cylinder(d=SMA_D_FERRULE, h=SMA_H_FERRULE);
+
+    // Câble fibre optique (sort par le haut)
+    color("Orange", 0.8)
+    translate([0, 0, SMA_H_BODY + SMA_H_NUT])
+        cylinder(d=FIBER_D, h=FIBER_L);
+}
+
+module focus_tube() {
+    color("DarkSlateGray", 0.9)
+    difference() {
+        cylinder(d=FOCUS_D, h=FOCUS_H);
+        // Alésage interne
+        translate([0, 0, -0.01])
+            cylinder(d=FOCUS_D_LENS, h=FOCUS_H + 0.02);
+    }
+    // Lentille de focalisation (au milieu)
+    color("LightBlue", 0.4)
+    translate([0, 0, FOCUS_H/2 - 1])
+        cylinder(d=FOCUS_D_LENS - 0.5, h=2);
+}
+
+module laser_guide() {
+    // Tube optique de focalisation (se visse sur la platine A)
+    focus_tube();
+
+    // Connecteur SMA905 sur le dessus du tube
+    translate([0, 0, FOCUS_H])
+        sma905_connector();
+
+    // Faisceau rouge (rayon visible, symbolique)
+    color("Red", 0.3)
+    translate([0, 0, -10])
+        cylinder(d1=0.5, d2=3, h=10);
+}
+
+
+// ============ RÉSERVOIR EAU PE ==============================
+
+module water_tank() {
+    color("SteelBlue", 0.4)
+    difference() {
+        // Coque extérieure arrondie
+        minkowski() {
+            cube([TANK_L - 2*TANK_R, TANK_W - 2*TANK_R, TANK_H - 2*TANK_R]);
+            sphere(r=TANK_R);
+        }
+        // Évidement intérieur
+        translate([TANK_WALL, TANK_WALL, TANK_WALL])
+            minkowski() {
+                cube([TANK_L - 2*TANK_R - 2*TANK_WALL,
+                      TANK_W - 2*TANK_R - 2*TANK_WALL,
+                      TANK_H - 2*TANK_R - 2*TANK_WALL]);
+                sphere(r=TANK_R);
+            }
+        // Ouverture bouchon (dessus)
+        translate([(TANK_L - 2*TANK_R)/2, (TANK_W - 2*TANK_R)/2, TANK_H - TANK_R])
+            cylinder(d=50, h=TANK_R + 1);
+    }
+    // Bouchon vissable
+    color("DarkBlue", 0.7)
+    translate([(TANK_L - 2*TANK_R)/2, (TANK_W - 2*TANK_R)/2, TANK_H - TANK_R])
+        cylinder(d=55, h=8);
+
+    // Raccord sortie (bas, face avant)
+    color("Gray")
+    translate([(TANK_L - 2*TANK_R)/2, -TANK_R, TANK_R + 20])
+        rotate([-90, 0, 0])
+            cylinder(d=12, h=15);
+
+    // Eau visible
+    color("CornflowerBlue", 0.3)
+    translate([TANK_WALL + 2, TANK_WALL + 2, TANK_WALL + 2])
+        cube([TANK_L - 2*TANK_R - 2*TANK_WALL - 4,
+              TANK_W - 2*TANK_R - 2*TANK_WALL - 4,
+              (TANK_H - 2*TANK_R) * 0.7]);
+}
+
+
+// ============ OSMOSE INVERSE ================================
+
+module ro_unit() {
+    // Housing membrane (tube principal)
+    color("White", 0.8)
+    difference() {
+        union() {
+            cylinder(d=RO_D, h=RO_L);
+            // Bouchon entrée
+            translate([0, 0, -5])
+                cylinder(d=RO_D_CAP, h=8);
+            // Bouchon sortie
+            translate([0, 0, RO_L - 3])
+                cylinder(d=RO_D_CAP, h=8);
+        }
+        // Alésage interne
+        translate([0, 0, 2])
+            cylinder(d=RO_D - 6, h=RO_L - 4);
+    }
+
+    // Raccord entrée eau brute (bas)
+    color("Gray")
+    translate([0, 0, -15])
+        cylinder(d=RO_D_PORT, h=12);
+
+    // Raccord sortie eau pure (haut)
+    color("Gray")
+    translate([0, 0, RO_L + 3])
+        cylinder(d=RO_D_PORT, h=12);
+
+    // Raccord rejet (latéral, en haut)
+    color("Gray")
+    translate([0, RO_D/2, RO_L - 30])
+        rotate([-90, 0, 0])
+            cylinder(d=RO_D_PORT, h=15);
+
+    // Membrane interne (symbolique)
+    color("Khaki", 0.5)
+    translate([0, 0, 10])
+        cylinder(d=RO_D - 8, h=RO_L - 20);
 }
 
 
@@ -466,6 +629,19 @@ module assemblage() {
     // Pièce A (vissée dans B par le haut)
     translate([0, 0, H_B - H_FILET])
         piece_A();
+
+    // Laser guide rouge (au-dessus de pièce A, sur l'axe optique)
+    translate([0, 0, H_B - H_FILET + H_A + 2])
+        laser_guide();
+
+    // Réservoir eau PE (décalé à droite)
+    translate([120, -TANK_W/2 + TANK_R, -(H_C)])
+        water_tank();
+
+    // Osmose inverse (entre réservoir et tête, couchée)
+    translate([60, 0, TANK_H/2 - H_C])
+        rotate([0, 0, -90])
+            ro_unit();
 }
 
 module vue_eclatee() {
@@ -570,6 +746,19 @@ module vue_eclatee_coupe() {
         piece_A();
         demi_coupe();
     }
+
+    // Laser guide rouge (au-dessus de pièce A)
+    translate([0, 0, H_B + 2*ECART + 3 + H_A + ECART])
+        laser_guide();
+
+    // Réservoir eau PE (décalé à droite)
+    translate([120, -TANK_W/2 + TANK_R, -(H_C)])
+        water_tank();
+
+    // Osmose inverse (entre réservoir et tête)
+    translate([60, 0, TANK_H/2 - H_C])
+        rotate([0, 0, -90])
+            ro_unit();
 }
 
 
@@ -590,7 +779,7 @@ module vue_eclatee_coupe() {
 // vue_eclatee();
 
 // Vue éclatée demi-coupe
-vue_eclatee_coupe();
+// vue_eclatee_coupe();
 
 // Vue assemblée demi-coupe
 // difference() {
@@ -606,4 +795,4 @@ vue_eclatee_coupe();
 // piece_B();
 
 // Pièce C seule (bouchon buse)
-// piece_C();
+piece_C();
