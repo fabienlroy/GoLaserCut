@@ -152,13 +152,14 @@ Q2   5V logic level adapter (optional)     1   If MCU is 3.3V (ESP32) and driver
 
 --- SAFETY SENSORS & INTERLOCKS ---
 
-S1   HP pressure transducer 0-40 MPa       1   1/4" or 1/8" NPT/BSP connection
-                                               4-20 mA or 0-5V analog output
-                                               SS316 wetted parts, rated 60 MPa burst
+S1   HP pressure transducer 0-400 bar       1   Ref: QDX50A 0-400bar, G1/4 BSP
+                                               Output: 0-5V (direct ADC for Arduino/ESP32)
+                                               Precision: 0.2% FS, response < 3 ms
+                                               Supply: DC 12-36V
                                                Monitors HP water pressure at pump output
-                                               Interlock: cut laser if P < 20 MPa or P > 35 MPa
-                                               Suppliers: AliExpress, Omega, WIKA, Danfoss
-                                               Price: 15 - 80 EUR
+                                               Interlock: cut laser if P < 200 bar or P > 350 bar
+                                               Supplier: AliExpress
+                                               Price: ~27 EUR
 
 S2   LP flow sensor (water cooling)        1   Flow range 0.5 - 5 L/min
                                                G1/4" or G1/8" thread, hall-effect pulse output
@@ -223,7 +224,7 @@ HPLC pump 40 MPa (used)          :           ~300 EUR
 HPLC connectors (6 pcs)          :     30 -  120 EUR
 HPLC tubing (2 m)                :     20 -   60 EUR
 QCW controller (Nano/ESP32)      :      3 -   15 EUR
-HP pressure transducer           :     15 -   80 EUR
+HP pressure transducer (QDX50A)  :            ~27 EUR
 LP flow sensor                   :      5 -   20 EUR
 Water leak detector              :      3 -   10 EUR
 Safety interlock switch          :      5 -   25 EUR
