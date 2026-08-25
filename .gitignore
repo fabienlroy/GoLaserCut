@@ -33,3 +33,7 @@ go.work.sum
 
 .DS_Store
 /golasercut
+
+# OpenSCAD build artifacts
+*.stl
+*.gcode
