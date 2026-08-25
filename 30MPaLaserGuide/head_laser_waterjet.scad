@@ -775,11 +775,11 @@ if (is_undef(EXPORT_PART)) {
 // vue_eclatee_coupe();
 
 // Vue assemblée demi-coupe
-// difference() {
-//     assemblage();
-//     translate([0, -D_EXT, -H_C - 2])
-//         cube([D_EXT, D_EXT*2, H_A + H_B + H_C + 4]);
-// }
+difference() {
+    assemblage();
+    translate([0, -D_EXT, -H_C - 2])
+        cube([D_EXT, D_EXT*2, H_A + H_B + H_C + 4]);
+}
 
 // Pièce A seule (retournée, face rainures visible)
 // rotate([180, 0, 0]) piece_A();
@@ -788,6 +788,6 @@ if (is_undef(EXPORT_PART)) {
 // piece_B();
 
 // Pièce C seule (bouchon buse)
-piece_C();
+// piece_C();
 
 } // fin garde EXPORT_PART
