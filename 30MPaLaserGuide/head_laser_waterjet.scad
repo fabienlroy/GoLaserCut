@@ -476,22 +476,12 @@ module piece_A() {
 module piece_B() {
     color("Peru", 0.8)
     difference() {
-        union() {
-            // --- Corps plein ---
-            cylinder(d=D_EXT, h=H_B);
+        // --- Corps plein ---
+        cylinder(d=D_EXT, h=H_B);
 
-            // --- Crêtes filetage M20 (solidaires du corps) ---
-            translate([0, 0, H_B - H_FILET - 0.01])
-                filet_femelle_ridges(D_FILET, PAS_FILET, H_FILET + 0.02);
-
-            // --- Crêtes filetage M10 (solidaires du corps) ---
-            translate([0, 0, -0.01])
-                filet_femelle_ridges(D_FILET_C, PAS_FILET, H_FILET_C + 0.01);
-        }
-
-        // --- Alésage filetage HAUT M20 × 0.7 (reçoit pièce A) ---
+        // --- Filetage interne HAUT M20 × 0.7 (reçoit pièce A) ---
         translate([0, 0, H_B - H_FILET - 0.01])
-            filet_femelle(D_FILET, PAS_FILET, H_FILET + 0.02);
+            filet_male(D_FILET, PAS_FILET, H_FILET + 0.02);
 
         // --- Logement fenêtre (épaulement, accessible par le haut) ---
         Z_FEN = H_B - H_FILET - EP_FENETRE;
@@ -527,7 +517,7 @@ module piece_B() {
 
         // Filetage interne M10 × 0.7 (reçoit bouchon C)
         translate([0, 0, -0.01])
-            filet_femelle(D_FILET_C, PAS_FILET, H_FILET_C + 0.01);
+            filet_male(D_FILET_C, PAS_FILET, H_FILET_C + 0.01);
 
         // --- Gorge joint buse (dans l'alésage, au-dessus du filetage) ---
         gorge_torique_face(OR_N_ID, OR_N_CS, GR_N_W, GR_N_D,
@@ -764,6 +754,9 @@ module vue_eclatee_coupe() {
 
 // ============ AFFICHAGE ====================================
 // Décommenter UNE des lignes :
+// (Gardé par EXPORT_PART pour éviter le rendu lors d'un include)
+
+if (is_undef(EXPORT_PART)) {
 
 // Vue assemblée demi-coupe
 // difference() {
@@ -796,3 +789,5 @@ module vue_eclatee_coupe() {
 
 // Pièce C seule (bouchon buse)
 piece_C();
+
+} // fin garde EXPORT_PART
