@@ -11,35 +11,54 @@ Ref  Description                          Qty  Specifications
 J1   Sapphire window O-ring                2   ID 8 x cross-section 1.5 mm (OR 8x1.5)
                                                Groove: W=2.0 D=1.1 mm
                                                ISO 3601 ref: ~OR-008-150
-                                               Suppliers: RS Components, McMaster-Carr, Amazon
+                                               Part refs:
+                                               - Marco Rubber V1081-.8X1.5 (75 Shore A)
+                                               - HANSA-FLEX OR 8-1.5 V (80 Shore A)
+                                               - Dichtomatik FP801801
+                                               - O-Ring-Stocks ORS23169 (DIN 3771)
+                                               Suppliers: HANSA-FLEX, o-ring-stocks.eu,
+                                               oringsandmore.com, eBay, Amazon
                                                Price: 0.50 - 2.00 EUR/pc
 
 J2   LP face seal O-ring (A-B junction)    1   ID 18 x cross-section 1.5 mm (OR 18x1.5)
                                                Groove: W=2.0 D=1.1 mm
                                                ISO 3601 ref: ~OR-018-150
-                                               Suppliers: RS Components, McMaster-Carr, Amazon
+                                               Part refs:
+                                               - HANSA-FLEX OR 18-1.5 V
+                                               - oringsandmore.com FKM 18x1.5
+                                               Suppliers: HANSA-FLEX, o-ring-stocks.eu,
+                                               oringsandmore.com, eBay, Amazon
                                                Price: 0.80 - 3.00 EUR/pc
 
 J3   Nozzle O-ring                         1   ID 3 x cross-section 1.0 mm (OR 3x1.0)
                                                Groove: W=1.4 D=0.75 mm
                                                ISO 3601 ref: ~OR-003-100
-                                               Suppliers: RS Components, McMaster-Carr
+                                               Part refs:
+                                               - HANSA-FLEX OR 3-1 V
+                                               - oringsandmore.com FKM 3x1
+                                               Suppliers: HANSA-FLEX, o-ring-stocks.eu,
+                                               oringsandmore.com, The O-Ring Store
                                                Price: 0.30 - 1.50 EUR/pc
 
 --- HYDRAULIC FITTINGS ---
 
 R1   90-degree push-in elbow fitting       3   Male thread R 1/8" BSP
      (2x LP on part A, 1x HP on part B)        Tube OD 6 mm
-                                               IQS standard or equivalent
-                                               Ref: IQS 90-degree L-push-in R1/8-6mm
-                                               Suppliers: Amazon, Festo, SMC, Legris/Parker
+                                               Part refs:
+                                               - Festo QSL-1/8-6 (art. 130729), 360° orientable
+                                               - SMC KQ2L06-01A (KQ2 series)
+                                               - Legris/Parker 3199 06 10
+                                               Suppliers: Festo, SMC, RS Components, Amazon
                                                Price: 3.00 - 8.00 EUR/pc
 
-T1   Polyurethane or nylon tubing         ~2m  OD 6 mm, ID 4 mm
+T1   Polyurethane tubing                  ~2m  OD 6 mm, ID 4 mm
                                                Working pressure >= 10 bar (LP circuit)
-                                               Ref: PUN-6X1 (Festo) or equivalent
-                                               Suppliers: Festo, SMC, RS Components, Amazon
-                                               Price: 1.00 - 4.00 EUR/m
+                                               Part refs:
+                                               - Festo PUN-6X1-BL (art. 159664, blue)
+                                               - Festo PUN-H-6X1-BL (art. 197384, hydrolysis-res.)
+                                               Sold in 50m rolls (~15-20 EUR/roll)
+                                               Suppliers: Festo, SMC, RS Components, Amazon, eBay
+                                               Price: 0.30 - 0.50 EUR/m
 
 --- OPTICS ---
 
@@ -58,12 +77,19 @@ O2   Micro-drilled nozzle                  1   OD 4 mm, height ~3 mm
                                                   Price: 150 - 800 EUR/pc
                                                b) Zirconia (Y-ZrO2) — excellent fracture toughness,
                                                   best thermal shock resistance, good orifice life
-                                                  Suppliers: CeramTec, Kyocera, Small Parts & Bearings
+                                                  Suppliers:
+                                                  - CH-Microhole (custom, laser-drilled ±3um,
+                                                    10um-1mm orifice, lead 15-45 days)
+                                                    sales@ch-microhole.com
+                                                  - Kyocera Fine Ceramics (material Z21H12/Z21H14,
+                                                    tolerance Phi 0.020±0.003mm)
+                                                  - Orbray (ex-Adamant Namiki), precision nozzles
                                                   Price: 50 - 200 EUR/pc
                                                c) Alumina ceramic (Al2O3 polycrystal) — cheapest,
                                                   fastest orifice wear, adequate for prototyping
-                                                  Suppliers: AliExpress, CeramTec, RS Components
-                                                  Price: 10 - 50 EUR/pc
+                                                  Suppliers: AliExpress (misting nozzle 0.1mm ~1-5 EUR),
+                                                  Alibaba, CeramTec
+                                                  Price: 1 - 50 EUR/pc
 
 --- FASTENERS ---
 
