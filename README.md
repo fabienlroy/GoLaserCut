@@ -93,6 +93,18 @@ RO Water Tank ─── HPLC Pump (30 MPa) ─── HP Chamber ─── Sapphi
 | QCW mode | 1-50 kHz, 5-50% duty cycle |
 | Total BOM cost | ~2200-3830 EUR |
 
+### Why 1 kW Is Enough
+
+The water-jet guided laser requires the beam to focus into a ~100 um water jet orifice. This demands near-single-mode beam quality (M² ~ 1.1). Power combining (2x 1 kW via fiber combiner) degrades M² proportionally to the number of inputs — the larger output fiber becomes multimode and can no longer couple efficiently into the micro-jet. The nozzle acts as a spatial filter that rejects degraded beams.
+
+Instead of more average power, peak power matters for cutting:
+
+- **QCW pulsing** delivers ~10 kW peak from 1 kW average (10% duty cycle) — this is what ablates material
+- **Industrial Synova** systems use only 50-500 W for the same reason: beam quality into the jet trumps raw wattage
+- **Multi-pass** at 1 kW already cuts deeper than Synova at 200 W (see tables below)
+
+The 1 kW CW + QCW configuration already exceeds industrial systems on cutting speed and depth while maintaining the beam quality needed for water-jet guidance.
+
 ### Cutting Performance
 
 Performance estimates for the DIY 1 kW system vs industrial Synova LMJ (200 W pulsed):
