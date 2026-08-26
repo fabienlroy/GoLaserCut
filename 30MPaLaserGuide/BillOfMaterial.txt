@@ -132,16 +132,30 @@ G1   650nm fiber-coupled red laser          1   5-10 mW, SMA905 fiber output
 
 G2   WDM fiber combiner 650/1070nm         1   Wavelength division multiplexer
                                                Combines 650nm red + 1070nm IR into one fiber
-                                               SMA905 or FC/PC connectors (match G1 + L1)
-                                               Single-mode, low insertion loss
-                                               Suppliers: Lfiber, Agiltron, Yasi Optics
-                                               Price: 40 - 150 EUR
+                                               Single-mode, low insertion loss (< 0.2 dB)
+                                               Part refs:
+                                               - Thorlabs W635S415F1A (635/1050nm, FC/PC,
+                                                 SM HI1060, 300mW max, ~312 USD)
+                                               - Lfiber 635/1064nm fused WDM coupler
+                                                 (FC/PC or custom SMA905, IL < 0.2 dB,
+                                                 5-10W power handling, quote required)
+                                               - DIGRAY 1064nm beam combiner kit (AliExpress,
+                                                 FC/PC, 650nm R>95% / 1064nm T>98%)
+                                               Note: SMA905 WDM not available off-the-shelf;
+                                               use FC/PC model + FC-to-SMA905 adapter cable,
+                                               or request custom SMA905 from Lfiber
+                                               Suppliers: Thorlabs, Lfiber, AliExpress
+                                               Price: 30 - 310 EUR
 
-G3   SMA905 fiber patch cable               1   Single-mode, 650nm compatible
-                                               Length 1-2 m, SMA905 both ends
-                                               (connects G1 red laser to G2 combiner)
+G3   Fiber patch cable                      1   Single-mode, 650nm compatible
+                                               Length 1-2 m
+                                               FC/PC both ends (or FC/PC to SMA905 if needed)
+                                               Connects G1 red laser to G2 combiner
+                                               Part refs:
+                                               - Thorlabs P1-630A-FC-1 (SM, FC/PC, 1m)
+                                               - AliExpress FC/PC SM patch cable
                                                Suppliers: Thorlabs, Amazon, AliExpress
-                                               Price: 10 - 30 EUR
+                                               Price: 10 - 40 EUR
 
 --- HIGH-PRESSURE WATER SYSTEM ---
 
@@ -311,7 +325,7 @@ M2.5 set screws (6 pcs)          :      1 -    3 EUR
 Laser module 1 kW kit            :           1142 EUR
 60V power supply 1.5 kW          :             85 EUR
 Laser water chiller              :            349 EUR
-Red laser guide (G1+G2+G3)       :     80 -  260 EUR
+Red laser guide (G1+G2+G3)       :     70 -  430 EUR
 HPLC pump 40 MPa (used)          :           ~300 EUR
 HPLC connectors (6 pcs)          :     30 -  120 EUR
 HPLC tubing (2 m)                :     20 -   60 EUR
@@ -329,5 +343,5 @@ Safety interlock switch          :      5 -   25 EUR
 E-stop button                    :      5 -   15 EUR
 Laser safety goggles OD6+        :     30 -  150 EUR
                                     ----------------
-TOTAL                            :  2201 - 3830 EUR
+TOTAL                            :  2191 - 4000 EUR
 (excluding tooling, excluding machined parts A/B/C)
