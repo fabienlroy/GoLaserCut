@@ -91,7 +91,7 @@ RO Water Tank ─── HPLC Pump (30 MPa) ─── HP Chamber ─── Sapphi
 | Nozzle orifice | ~100 um (sapphire, zirconia, or alumina) |
 | Kerf width | ~100 um |
 | QCW mode | 1-50 kHz, 5-50% duty cycle |
-| Total BOM cost | ~2200-3830 EUR |
+| Total BOM cost | ~2200-4025 EUR |
 
 ### Why 1 kW Is Enough
 
@@ -221,11 +221,58 @@ Source: [`30MPaLaserGuide/qcw_pwm_converter/`](30MPaLaserGuide/qcw_pwm_converter
 |------|-------------|
 | `head_laser_waterjet.scad` | Parametric CAD model (3 machined pieces, red laser guide, RO unit, water tank) |
 | `export_A/B/C.scad` | Individual STL export scripts for each piece |
-| `BillOfMaterial.txt` | Full BOM with part references, suppliers, pricing (~2200-3830 EUR) |
+| `BillOfMaterial.txt` | Full BOM with part references, suppliers, pricing (~2200-4025 EUR) |
 | `qcw_pwm_converter/` | Arduino sketch: QCW pulse generation + safety interlocks |
 | `viewer_3d.html` | Standalone WebGL viewer (embedded meshes) |
 | `comparison.html` | DIY vs industrial comparison |
 | `cutting_performance.html` | Cutting performance data and charts |
+
+## Safety Warning
+
+**This project involves a Class 4 laser (1 kW, 1070 nm) and high-pressure water (30 MPa / 300 bar). It can cause permanent blindness, severe burns, and fatal injuries. Do not attempt to build or operate this system without proper training and safety equipment.**
+
+### Laser hazards
+
+- 1 kW infrared at 1070 nm is **invisible** — you will not see the beam before it damages your eyes or skin
+- Scattered and reflected IR radiation can cause injury even without direct beam exposure
+- **OD6+ laser safety goggles** rated for 1060-1080 nm are mandatory (CE EN 207)
+- A fully enclosed, interlocked laser enclosure is required (IEC 60825 Class 4)
+- Never bypass the door interlock or E-stop
+- Post laser warning signs on all access points
+
+### High-pressure hazards
+
+- 30 MPa (300 bar) water can penetrate skin and cause injection injuries
+- Never point the nozzle at any body part, even when the laser is off
+- Inspect all HP fittings, tubing, and seals before each use
+- Use HPLC-rated stainless steel tubing and fittings only — no improvised plumbing
+- Keep clear of the HP circuit during pressurization
+
+### Fire hazards
+
+- The laser can ignite combustible materials (wood, acrylic, composites, oils)
+- Keep a CO2 fire extinguisher within reach at all times
+- IR flame detectors (S7) and thermal sensors (S8) are included in the safety system — do not disable them
+- Never leave the system unattended while the laser is firing
+
+### Electrical hazards
+
+- The 60V / 25A power supply and laser driver carry lethal energy
+- All electrical connections must be properly insulated and grounded
+- Disconnect mains power before servicing any component
+
+### Safety interlocks
+
+The Arduino safety controller monitors all critical sensors and kills the laser on any fault. **Do not operate the laser with any interlock bypassed or disabled:**
+
+- HP pressure (200-350 bar operating range)
+- LP cooling flow (> 1 L/min)
+- Water leak detection
+- IR flame / thermal detection (> 150 C)
+- Enclosure door interlock
+- Emergency stop (E-stop)
+
+**This is a DIY research project. The authors assume no liability for injury, damage, or loss resulting from the construction or use of this system. You are solely responsible for compliance with all applicable laser safety regulations (IEC 60825, ANSI Z136, OSHA) in your jurisdiction.**
 
 ## Support this project
 
