@@ -9,17 +9,22 @@
 //   D3  <-- Water leak detector (S3, active HIGH = leak)
 //   D4  <-- Door interlock switch (S4, NC: LOW = closed/safe)
 //   D5  <-- E-stop button (S5, NC: LOW = not pressed/safe)
+//   D6  <-- IR flame detector 1 (S7, digital HIGH = fire)
+//   D7  <-- IR flame detector 2 (S8, digital HIGH = fire, optional)
+//   D8  --> Camera trigger output (S9, optional USB micro camera)
 //   D9  --> QCW TTL output to laser driver
 //   D10 --> Laser Enable output to laser driver
 //   D13 --> Fault LED (built-in, HIGH = fault)
 //   A0  <-- HP pressure transducer (S1, QDX50A 0-5V = 0-400 bar)
 //   A1  <-- LP flow sensor pulse (S2, hall-effect)
+//   A2  <-- IR thermal sensor analog (S7 alt, 0-5V = ambient to ~500°C)
 //   GND --- common ground with FoxAlien and laser driver
 //
 // Safety interlocks (any fault = immediate laser kill):
 //   - HP pressure out of range (< 200 bar or > 350 bar)
 //   - LP cooling flow too low (< 1 L/min)
 //   - Water leak detected
+//   - IR flame/fire detected (material ignition)
 //   - Enclosure door open
 //   - E-stop pressed
 //
@@ -27,6 +32,7 @@
 //   F<freq>   Set QCW frequency in Hz (e.g. F20000 for 20 kHz)
 //   D<duty>   Override duty cycle 0-100 (bypasses PWM input)
 //   A         Return to auto mode (duty from PWM input)
+//   C         Toggle micro camera trigger on/off
 //   R         Reset fault (after fixing the cause)
 //   S         Print current status
 //
@@ -37,11 +43,15 @@
 #define PIN_LEAK         3
 #define PIN_DOOR         4
 #define PIN_ESTOP        5
+#define PIN_IR_FLAME1    6
+#define PIN_IR_FLAME2    7
+#define PIN_CAM_TRIG     8
 #define PIN_QCW_OUT      9
 #define PIN_ENABLE_OUT   10
 #define PIN_FAULT_LED    13
 #define PIN_PRESSURE     A0
 #define PIN_FLOW         A1
+#define PIN_IR_THERMAL   A2
 
 // --- QCW parameters ---
 #define DEFAULT_QCW_FREQ  20000
@@ -62,14 +72,21 @@
 #define FLOW_MIN_LPM           1.0
 #define FLOW_CHECK_INTERVAL_MS 1000
 
+// --- IR thermal thresholds ---
+// Analog IR thermal sensor: 0-5V mapped to ~0-500°C
+#define IR_THERMAL_SCALE   500.0
+#define IR_TEMP_MAX_C      150.0
+#define ADC_TO_TEMP(adc)   ((float)(adc) * IR_THERMAL_SCALE / 1023.0)
+
 // --- Fault codes ---
 #define FAULT_NONE        0
 #define FAULT_PRESSURE_LO 1
 #define FAULT_PRESSURE_HI 2
 #define FAULT_FLOW_LOW    3
 #define FAULT_LEAK        4
-#define FAULT_DOOR_OPEN   5
-#define FAULT_ESTOP       6
+#define FAULT_FIRE        5
+#define FAULT_DOOR_OPEN   6
+#define FAULT_ESTOP       7
 
 // --- QCW state ---
 volatile unsigned long pulseStart = 0;
@@ -91,12 +108,16 @@ unsigned long lastFlowCheck = 0;
 unsigned long lastFlowPulses = 0;
 float flowLPM = 0;
 
+// --- Camera state ---
+bool cameraEnabled = false;
+
 const char* faultNames[] = {
     "NONE",
     "PRESSURE LOW",
     "PRESSURE HIGH",
     "FLOW LOW",
     "WATER LEAK",
+    "FIRE/IR",
     "DOOR OPEN",
     "E-STOP"
 };
@@ -108,18 +129,20 @@ void setup() {
     pinMode(PIN_LEAK, INPUT);
     pinMode(PIN_DOOR, INPUT_PULLUP);
     pinMode(PIN_ESTOP, INPUT_PULLUP);
+    pinMode(PIN_IR_FLAME1, INPUT);
+    pinMode(PIN_IR_FLAME2, INPUT);
+    pinMode(PIN_CAM_TRIG, OUTPUT);
     pinMode(PIN_QCW_OUT, OUTPUT);
     pinMode(PIN_ENABLE_OUT, OUTPUT);
     pinMode(PIN_FAULT_LED, OUTPUT);
     pinMode(PIN_FLOW, INPUT);
+    pinMode(PIN_IR_THERMAL, INPUT);
 
     killLaser();
+    digitalWrite(PIN_CAM_TRIG, LOW);
 
     attachInterrupt(digitalPinToInterrupt(PIN_PWM_IN), pwmISR, CHANGE);
     attachInterrupt(digitalPinToInterrupt(PIN_LEAK), leakISR, RISING);
-
-    // Flow sensor on pin change (polled via analog, or use pin change interrupt)
-    // For simplicity, we count rising edges on A1 via polling in loop()
 
     setupTimer1(qcwFreq, 0);
 
@@ -132,7 +155,10 @@ void setup() {
     Serial.print("-");
     Serial.print(PRESSURE_MAX_BAR);
     Serial.println(" bar");
-    Serial.println("Commands: F<freq> D<duty> A R S");
+    Serial.print("IR temp max: ");
+    Serial.print(IR_TEMP_MAX_C, 0);
+    Serial.println(" C");
+    Serial.println("Commands: F<freq> D<duty> A R C S");
 }
 
 // --- Interrupt handlers ---
@@ -251,6 +277,13 @@ uint8_t checkInterlocks() {
     if (digitalRead(PIN_LEAK) == HIGH)
         return FAULT_LEAK;
 
+    if (digitalRead(PIN_IR_FLAME1) == HIGH || digitalRead(PIN_IR_FLAME2) == HIGH)
+        return FAULT_FIRE;
+
+    float irTemp = ADC_TO_TEMP(analogRead(PIN_IR_THERMAL));
+    if (irTemp > IR_TEMP_MAX_C)
+        return FAULT_FIRE;
+
     float pressure = readPressureBar();
     if (pressure < PRESSURE_MIN_BAR && dutyCyclePercent > 0)
         return FAULT_PRESSURE_LO;
@@ -303,6 +336,13 @@ void handleSerial() {
             autoMode = true;
             Serial.println("Auto mode (duty from PWM input)");
             break;
+        case 'C':
+        case 'c':
+            cameraEnabled = !cameraEnabled;
+            digitalWrite(PIN_CAM_TRIG, cameraEnabled ? HIGH : LOW);
+            Serial.print("Camera: ");
+            Serial.println(cameraEnabled ? "ON" : "OFF");
+            break;
         case 'R':
         case 'r':
             if (checkInterlocks() == FAULT_NONE) {
@@ -330,11 +370,20 @@ void handleSerial() {
             Serial.print(flowLPM, 1);
             Serial.print(" L/min | Leak: ");
             Serial.println(digitalRead(PIN_LEAK) ? "YES" : "no");
+            float irTemp = ADC_TO_TEMP(analogRead(PIN_IR_THERMAL));
+            Serial.print("IR temp: ");
+            Serial.print(irTemp, 1);
+            Serial.print(" C | Flame1: ");
+            Serial.print(digitalRead(PIN_IR_FLAME1) ? "FIRE" : "ok");
+            Serial.print(" | Flame2: ");
+            Serial.println(digitalRead(PIN_IR_FLAME2) ? "FIRE" : "ok");
             Serial.print("Door: ");
             Serial.print(digitalRead(PIN_DOOR) ? "OPEN" : "closed");
             Serial.print(" | E-stop: ");
             Serial.print(digitalRead(PIN_ESTOP) ? "OK" : "PRESSED");
-            Serial.print(" | Fault: ");
+            Serial.print(" | Camera: ");
+            Serial.println(cameraEnabled ? "ON" : "OFF");
+            Serial.print("Fault: ");
             Serial.print(faultNames[faultCode]);
             Serial.print(" | Laser: ");
             Serial.println(laserAllowed ? "ARMED" : "SAFE");

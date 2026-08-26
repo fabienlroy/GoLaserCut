@@ -243,6 +243,41 @@ S5   Emergency stop button (E-stop)        1   Mushroom-head, NC contact, red/ye
                                                Suppliers: Schneider, Siemens, Amazon
                                                Price: 5 - 15 EUR
 
+S7   IR flame detector (digital)          1-2  Infrared flame sensor module, digital output
+                                               Detects fire/material ignition in cutting zone
+                                               Wavelength: 760-1100 nm IR range
+                                               Detection angle: ~60 deg, range 0.8-1 m
+                                               Output: digital HIGH on flame detection
+                                               Mount inside enclosure, aimed at workpiece
+                                               Interlock: cut laser on fire detection
+                                               Part refs:
+                                               - KY-026 IR flame sensor module
+                                               - HW-484 4-pin flame detector (adjustable)
+                                               Suppliers: Amazon, AliExpress, Mouser
+                                               Price: 2 - 5 EUR/pc
+
+S8   IR thermal sensor (analog, optional)  1   Non-contact infrared temperature sensor
+                                               Monitors workpiece/cutting zone temperature
+                                               Range: -20 to 500°C, analog 0-5V output
+                                               Interlock: cut laser if temp > 150°C
+                                               Part refs:
+                                               - MLX90614 IR thermometer (I2C or analog)
+                                               - GY-906 MLX90614 breakout module
+                                               Suppliers: Amazon, AliExpress, Mouser, Adafruit
+                                               Price: 5 - 15 EUR
+
+S9   USB micro camera (optional)           1   Miniature USB endoscope/inspection camera
+                                               Observes cutting operation in real-time
+                                               Waterproof, LED illuminated, 640x480 or higher
+                                               OD 5-7 mm, flexible gooseneck or fixed mount
+                                               Trigger via Arduino D8 (power on/off)
+                                               View on PC via USB (UVC class, no driver)
+                                               Part refs:
+                                               - 5.5mm USB endoscope camera IP67
+                                               - DEPSTECH USB inspection camera
+                                               Suppliers: Amazon, AliExpress
+                                               Price: 10 - 30 EUR
+
 S6   Laser safety goggles OD6+ @1070nm     1   Optical density >= 6 at 1060-1080 nm
                                                CE EN 207 certified, VLT > 40%
                                                Suppliers: Thorlabs, Edmund, LaserSafety, Amazon
@@ -287,9 +322,12 @@ QCW controller (Nano/ESP32)      :      3 -   15 EUR
 HP pressure transducer (QDX50A)  :            ~27 EUR
 LP flow sensor                   :      5 -   20 EUR
 Water leak detector              :      3 -   10 EUR
+IR flame detector (1-2 pcs)      :      2 -   10 EUR
+IR thermal sensor (optional)     :      5 -   15 EUR
+USB micro camera (optional)      :     10 -   30 EUR
 Safety interlock switch          :      5 -   25 EUR
 E-stop button                    :      5 -   15 EUR
 Laser safety goggles OD6+        :     30 -  150 EUR
                                     ----------------
-TOTAL                            :  2184 - 3775 EUR
+TOTAL                            :  2201 - 3830 EUR
 (excluding tooling, excluding machined parts A/B/C)

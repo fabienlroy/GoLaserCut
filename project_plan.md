@@ -1,16 +1,16 @@
 # GoLaserCut
 
-Port cross-platform de LaserGRBL en Go. Logiciel laser gratuit et open source :
-CAM (import SVG/DXF/image → parcours laser) + contrôle machine GRBL en série.
+Cross-platform Go port of LaserGRBL. Free, open-source laser cutter software:
+CAM (import SVG/DXF/image → laser toolpath) + GRBL machine control over serial.
 
-Objectif : remplacer LaserGRBL (C#/WinForms, Windows-only) par un outil natif
-macOS / Linux / Windows, zéro dépendance runtime.
+Goal: replace LaserGRBL (C#/WinForms, Windows-only) with a native tool for
+macOS / Linux / Windows, zero runtime dependencies.
 
-## Pourquoi
+## Why
 
-- LaserGRBL : gratuit mais Windows-only (C#/.NET 3.5/WinForms/GDI+)
-- LightBurn : cross-platform mais payant (60 €)
-- Rien de gratuit et cross-platform n'existe pour piloter un laser GRBL
+- LaserGRBL: free but Windows-only (C#/.NET 3.5/WinForms/GDI+)
+- LightBurn: cross-platform but paid (60 EUR)
+- Nothing free and cross-platform exists to drive a GRBL laser
 
 ## Architecture
 
@@ -29,79 +29,78 @@ macOS / Linux / Windows, zéro dépendance runtime.
 
 ## Packages
 
-| Package       | Rôle                                                          |
+| Package       | Role                                                          |
 |--------------|---------------------------------------------------------------|
-| `serial/`    | Connexion série, protocole GRBL 1.1 (send/receive, status ?) |
-| `grbl/`      | Parser réponses GRBL (ok, error, alarm, status `<...>`)      |
-| `import/`    | Parseurs : SVG paths, DXF (LWPOLYLINE, CIRCLE), images       |
-| `cam/`       | Parcours laser : mode line (coupe), mode scan (gravure raster)|
-| `gcode/`     | Génération G-code : header, M4/M5, overscan, multi-passes    |
-| `preview/`   | Rendu 2D du parcours (canvas Gio ou export PNG)              |
-| `ui/`        | Interface Gio : fenêtre principale, panels, widgets          |
-| `cmd/`       | Point d'entrée CLI + GUI                                     |
+| `serial/`    | Serial connection, GRBL 1.1 protocol (send/receive, status ?) |
+| `grbl/`      | GRBL response parser (ok, error, alarm, status `<...>`)       |
+| `import/`    | Parsers: SVG paths, DXF (LWPOLYLINE, CIRCLE), images         |
+| `cam/`       | Laser toolpaths: line mode (cut), scan mode (raster engrave)  |
+| `gcode/`     | G-code generation: header, M4/M5, overscan, multi-pass       |
+| `preview/`   | 2D toolpath rendering (Gio canvas or PNG export)              |
+| `ui/`        | Gio interface: main window, panels, widgets                   |
+| `cmd/`       | CLI + GUI entry point                                         |
 
-## Fonctionnalités (par priorité)
+## Features (by priority)
 
-### Phase 1 — Sender GRBL (MVP)
-- [ ] Connexion série (auto-detect port, baudrate 115200)
-- [ ] Console GRBL interactive (envoi commandes, affichage réponses)
-- [ ] Jog XY (flèches, pas configurable)
-- [ ] Chargement et envoi de fichier .gcode existant
-- [ ] Barre de progression, pause/resume/stop
-- [ ] Status polling (`?`) : position, état, vitesse
-- [ ] Override feedrate/spindle en temps réel (`0x91`..`0x9D`)
+### Phase 1 — GRBL Sender (MVP)
+- [ ] Serial connection (auto-detect port, baudrate 115200)
+- [ ] Interactive GRBL console (send commands, display responses)
+- [ ] XY jog (arrow keys, configurable step)
+- [ ] Load and send existing .gcode file
+- [ ] Progress bar, pause/resume/stop
+- [ ] Status polling (`?`): position, state, speed
+- [ ] Real-time feedrate/spindle override (`0x91`..`0x9D`)
 
-### Phase 2 — Import et prévisualisation
-- [ ] Import SVG (paths, polylines, cercles, rectangles, transforms)
-- [ ] Import DXF (LWPOLYLINE, CIRCLE, ARC — couche filtrable)
-- [ ] Import image (PNG/JPG → niveaux de gris)
-- [ ] Canvas 2D avec zoom/pan, affichage des parcours
-- [ ] Sélection par couche, réordonnancement
+### Phase 2 — Import and preview
+- [ ] SVG import (paths, polylines, circles, rectangles, transforms)
+- [ ] DXF import (LWPOLYLINE, CIRCLE, ARC — filterable layers)
+- [ ] Image import (PNG/JPG → grayscale)
+- [ ] 2D canvas with zoom/pan, toolpath display
+- [ ] Layer selection, reordering
 
-### Phase 3 — CAM laser
-- [ ] Mode Line : coupe par contour, puissance/vitesse/passes par couche
-- [ ] Mode Scan : gravure raster, espacement lignes, overscan auto
-- [ ] Mode 3D : heightmap STL → multi-passes avec Z focus (réutilise laser_stl2gcode)
-- [ ] Génération G-code en mémoire + export fichier
-- [ ] Estimation temps de coupe
+### Phase 3 — Laser CAM
+- [ ] Line mode: contour cut, power/speed/passes per layer
+- [ ] Scan mode: raster engrave, line spacing, auto overscan
+- [ ] 3D mode: STL heightmap → multi-pass with Z focus (reuses laser_stl2gcode)
+- [ ] In-memory G-code generation + file export
+- [ ] Cut time estimation
 
-### Phase 4 — Avancé
+### Phase 4 — Advanced
 - [ ] Homing, soft limits, work coordinate systems
-- [ ] Macros utilisateur (boutons custom)
-- [ ] Calibration laser (grille de test puissance/vitesse)
-- [ ] Profils matériaux (contreplaqué 3mm, acrylique, acier 0.3mm)
-- [ ] Configuration machine ($$ editor)
+- [ ] User macros (custom buttons)
+- [ ] Laser calibration (power/speed test grid)
+- [ ] Material profiles (3mm plywood, acrylic, 0.3mm steel)
+- [ ] Machine configuration ($$ editor)
 
-## Stack technique
+## Tech stack
 
-- **Go 1.22+** — zéro CGo sauf serial (go.bug.st/serial)
-- **GUI : [Gio](https://gioui.org)** — toolkit Go natif, cross-platform
-  (macOS/Linux/Windows/Android/iOS), pas de CGo sur la plupart des
-  plateformes, rendu GPU. Alternative : Fyne (plus de widgets prêts
-  à l'emploi mais plus lourd).
-- **Serial : [go.bug.st/serial](https://pkg.go.dev/go.bug.st/serial)**
-  — lib Go standard pour ports série
-- **Pas de Electron, pas de webview, pas de Qt**
+- **Go 1.22+** — zero CGo except serial (go.bug.st/serial)
+- **GUI: [Gio](https://gioui.org)** — native Go toolkit, cross-platform
+  (macOS/Linux/Windows/Android/iOS), no CGo on most platforms, GPU rendering.
+  Alternative: Fyne (more ready-made widgets but heavier).
+- **Serial: [go.bug.st/serial](https://pkg.go.dev/go.bug.st/serial)**
+  — standard Go serial port library
+- **No Electron, no webview, no Qt**
 
 ## Conventions
 
-- Go 1.22+, code lisible, pas de generics inutiles
-- Fichiers `snake_case.go`, exports `CamelCase`
-- Erreurs : `fmt.Errorf` avec `%w`, pas de `log.Fatal` dans les packages
-- Tests : `_test.go` dans chaque package
-- Build : `go build ./cmd/golasercut`
-- Licence : Apache 2.0
+- Go 1.22+, readable code, no unnecessary generics
+- Files `snake_case.go`, exports `CamelCase`
+- Errors: `fmt.Errorf` with `%w`, no `log.Fatal` in packages
+- Tests: `_test.go` in each package
+- Build: `go build ./cmd/golasercut`
+- License: Apache 2.0
 
-## Protocole GRBL 1.1
+## GRBL 1.1 Protocol
 
-Référence : https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface
+Reference: https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface
 
-### Envoi G-code
-- Envoyer ligne par ligne, attendre `ok` ou `error:N` avant la suivante
-- Buffer de caractères : max 127 octets par ligne (sans \n)
-- Mode streaming : compter les octets en vol, envoyer tant que < 127
+### Sending G-code
+- Send line by line, wait for `ok` or `error:N` before next
+- Character buffer: max 127 bytes per line (without \n)
+- Streaming mode: count in-flight bytes, send while < 127
 
-### Commandes temps réel (pas de \n, envoi direct)
+### Real-time commands (no \n, send directly)
 - `?` → status report `<Idle|MPos:0.000,0.000,0.000|...>`
 - `!` → feed hold (pause)
 - `~` → cycle resume
@@ -111,33 +110,33 @@ Référence : https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface
 - `0x99`..`0x9D` → spindle override
 
 ### Status report
-Format : `<State|MPos:X,Y,Z|FS:feed,speed|Ov:f,r,s|...>`
-Parser avec state machine, extraire : état, position, feed, speed, overrides.
+Format: `<State|MPos:X,Y,Z|FS:feed,speed|Ov:f,r,s|...>`
+Parse with state machine, extract: state, position, feed, speed, overrides.
 
-## Briques réutilisables
+## Reusable components
 
-Ce projet intègre du code des projets frères :
-- Parseur DXF → de `dxf2gcode`
-- Parseur SVG → de `svg2gcode`
-- Raster 3D + heightmap → de `laser_stl2gcode`
+This project incorporates code from sibling projects:
+- DXF parser → from `dxf2gcode`
+- SVG parser → from `svg2gcode`
+- 3D raster + heightmap → from `laser_stl2gcode`
 
-## Machine de référence
+## Reference machine
 
 - FoxAlien XE-Pro, GRBL 1.1, 3 axes
-- Laser Tree 80W (10W optique), diode 450nm, TTL
+- Laser Tree 80W (10W optical), 450nm diode, TTL
 - $30=1000, $32=1 (laser mode)
-- CO₂ assist (détendeur W21.8, 1.5–2 bar)
+- CO2 assist (W21.8 regulator, 1.5-2 bar)
 
-## TODO (ordre de développement)
+## TODO (development order)
 
-1. [ ] `serial/` — connexion, envoi, réception, auto-detect port
-2. [ ] `grbl/` — parser réponses (ok, error, alarm, status)
-3. [ ] `cmd/` — CLI sender basique (charge .gcode, envoie, progress bar)
-4. [ ] `ui/` — fenêtre Gio minimale : console + boutons connect/send
-5. [ ] `import/dxf.go` — parser DXF (porter depuis dxf2gcode)
-6. [ ] `import/svg.go` — parser SVG paths
-7. [ ] `preview/` — canvas 2D rendu des parcours
-8. [ ] `cam/line.go` — mode coupe (contour → G-code)
-9. [ ] `cam/scan.go` — mode gravure raster avec overscan
-10. [ ] `gcode/` — writer complet (header, footer, multi-passes)
-11. [ ] Tests d'intégration avec GRBL simulator
+1. [ ] `serial/` — connection, send, receive, auto-detect port
+2. [ ] `grbl/` — response parser (ok, error, alarm, status)
+3. [ ] `cmd/` — basic CLI sender (load .gcode, send, progress bar)
+4. [ ] `ui/` — minimal Gio window: console + connect/send buttons
+5. [ ] `import/dxf.go` — DXF parser (port from dxf2gcode)
+6. [ ] `import/svg.go` — SVG path parser
+7. [ ] `preview/` — 2D canvas toolpath rendering
+8. [ ] `cam/line.go` — cut mode (contour → G-code)
+9. [ ] `cam/scan.go` — raster engrave mode with overscan
+10. [ ] `gcode/` — complete writer (header, footer, multi-pass)
+11. [ ] Integration tests with GRBL simulator

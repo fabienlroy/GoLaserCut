@@ -91,7 +91,7 @@ RO Water Tank ─── HPLC Pump (30 MPa) ─── HP Chamber ─── Sapphi
 | Nozzle orifice | ~100 um (sapphire, zirconia, or alumina) |
 | Kerf width | ~100 um |
 | QCW mode | 1-50 kHz, 5-50% duty cycle |
-| Total BOM cost | ~2200-3800 EUR |
+| Total BOM cost | ~2200-3830 EUR |
 
 ### Cutting Performance
 
@@ -188,7 +188,9 @@ A single Arduino Nano handles QCW pulse generation and safety monitoring:
 
 - Reads FoxAlien GRBL spindle PWM, outputs QCW pulses at 1-50 kHz
 - S-value controls duty cycle, frequency set via serial
-- Safety interlocks: HP pressure (QDX50A, 200-350 bar), LP flow (> 1 L/min), water leak, door, e-stop
+- Safety interlocks: HP pressure (QDX50A, 200-350 bar), LP flow (> 1 L/min), water leak, IR flame/thermal detection, door, e-stop
+- IR flame detectors (digital) detect material ignition, IR thermal sensor monitors workpiece temperature (kills at > 150 C)
+- Optional USB micro camera for real-time cutting observation, triggered via serial command
 - Any fault = instant laser kill, serial fault reporting, manual reset required
 
 Source: [`30MPaLaserGuide/qcw_pwm_converter/`](30MPaLaserGuide/qcw_pwm_converter/)
@@ -207,7 +209,7 @@ Source: [`30MPaLaserGuide/qcw_pwm_converter/`](30MPaLaserGuide/qcw_pwm_converter
 |------|-------------|
 | `head_laser_waterjet.scad` | Parametric CAD model (3 machined pieces, red laser guide, RO unit, water tank) |
 | `export_A/B/C.scad` | Individual STL export scripts for each piece |
-| `BillOfMaterial.txt` | Full BOM with part references, suppliers, pricing (~2200-3800 EUR) |
+| `BillOfMaterial.txt` | Full BOM with part references, suppliers, pricing (~2200-3830 EUR) |
 | `qcw_pwm_converter/` | Arduino sketch: QCW pulse generation + safety interlocks |
 | `viewer_3d.html` | Standalone WebGL viewer (embedded meshes) |
 | `comparison.html` | DIY vs industrial comparison |
